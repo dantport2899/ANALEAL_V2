@@ -13,15 +13,15 @@ class NewUser
 
         $datauser = $data->data;
 
-        if (empty($datauser->usuario)) {
+        if (empty($datauser->nom_usuario)) {
             $response['code'] = 1;
             $response['error'] = true;
             $response['message'] = 'Nombre de usuario vacío.';
-        } else if (empty($datauser->password)) {
+        } else if (empty($datauser->contrasena)) {
             $response['code'] = 2;
             $response['error'] = true;
             $response['message'] = 'Contraseña vacía.';
-        }else if (empty($datauser->email)) {
+        }else if (empty($datauser->correo)) {
             $response['code'] = 3;
             $response['error'] = true;
             $response['message'] = 'Correo vacío.';
@@ -29,52 +29,36 @@ class NewUser
             $response['code'] = 4;
             $response['error'] = true;
             $response['message'] = 'Teléfono vacío.';
-        }else if (empty($datauser->first_name)) {
+        }else if (empty($datauser->username)) {
             $response['code'] = 5;
             $response['error'] = true;
-            $response['message'] = 'Nombre vacío.';
-        }else if (empty($datauser->last_name)) {
+            $response['message'] = 'Username vacío.';
+        }else if (empty($datauser->direccion)) {
             $response['code'] = 6;
             $response['error'] = true;
-            $response['message'] = 'Apellido vacío.';
-        }else if (empty($datauser->ualta)) {
-            $response['code'] = 7;
-            $response['error'] = true;
-            $response['message'] = 'No eres un perfil registrado.';
-        }else if (empty($datauser->user_types_id)) {
+            $response['message'] = 'Direccion vacía.';
+        }else if (empty($datauser->idrol)) {
             $response['code'] = 8;
             $response['error'] = true;
             $response['message'] = 'No hay rol asignado.';
 
         }else{
 
-            $user = $conexion->consulta("SELECT * FROM `users` WHERE email = '".$datauser->email."' ");
+            $user = $conexion->consulta("SELECT * FROM `usuarios` WHERE correo = '".$datauser->correo."' ");
 
             // verificar si el correo ya está siendo utilizado por otro usuario
             if (empty($user)) {
 
-                $username = $conexion->consulta("SELECT * FROM `users` WHERE name_user = '".$datauser->usuario."' ");
-
-                // verificar si el usuario ya está siendo utilizado por otro usuario
-                if (empty($username)) {
-                    $fechaActual = date('Y-m-d H:i:s');
-                    $status=0;
-    
+                $username = $conexion->consulta("SELECT * FROM `usuarios` WHERE correo = '".$datauser->correo."' ");    
                     // encriptar contrasena
-                    $pass_encrypt = password_hash($datauser->password,PASSWORD_DEFAULT);                    
+                    // $pass_encrypt = password_hash($datauser->password,PASSWORD_DEFAULT);                    
     
-                    $querty = "INSERT INTO `users` (`name_user`,`password`,`email`,`telefono`,`first_name`,`estatus`,`last_name`,`ualta`,`falta`,`umod`,`fmod`,`user_types_id`) VALUES ('".$datauser->usuario."','".$pass_encrypt."','".$datauser->email."','".$datauser->telefono."','".$datauser->first_name."',".$status.",'".$datauser->last_name."',".$datauser->ualta.",'".$fechaActual."',".$datauser->ualta.",'".$fechaActual."',".$datauser->user_types_id.");";
+                    $querty = "INSERT INTO `usuarios` (nom_usuario,correo,username,contrasena,idrol,direccion,telefono) VALUES ('".$datauser->nom_usuario."','".$datauser->correo."','".$datauser->username."','".$datauser->contrasena."',".$datauser->idrol.",'".$datauser->direccion."','".$datauser->telefono."')";
     
                     $conexion->consulta($querty);
     
                     $response['message'] = 'Usuario agregado con éxito';
-                    // $response['querty'] = $querty;
-                    // print_r($user);
-                }else{
-                    $response['code'] = 9;
-                    $response['error'] = true;
-                    $response['message'] = 'Este nombre de usuario ya está siendo usado por un usuario';
-                }       
+                  
             }else{
                 $response['code'] = 9;
                 $response['error'] = true;

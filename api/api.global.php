@@ -70,14 +70,6 @@ switch ($data->action) {
         $response = $newUser -> newUser($data);
         break;
 
-    case 'getuser':
-        $response = $getUser -> getUsers($data);
-        break;
-
-    case 'totalusers':
-        $response = $getUser -> totalUsers();
-        break;
-
     case 'modifyuser':
         $response = $getUser -> modifyUser($data);
         break;
@@ -85,11 +77,7 @@ switch ($data->action) {
     case 'deleteuser':
         $response = $getUser -> deleteUser($data);
         break;
-    
-    case 'searchuser':
-        $response = $getUser -> searchUser($data);
-        break;
-    
+        
     default:
         # code...
         break;
