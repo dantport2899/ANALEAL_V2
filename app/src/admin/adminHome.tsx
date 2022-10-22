@@ -2,8 +2,6 @@ import React from 'react'
 
 import {NavbarAdmin} from '../componentes/navbarAdmin';
 
-// import '../styles/style.css';
-
 export const AdminHome = () => {
 
   //se importa esta libreria si eres admin

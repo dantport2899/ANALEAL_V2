@@ -17,20 +17,20 @@ export const NavbarCliente = () => {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav mx-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page"style={{textTransform:"uppercase"}} onClick={()=>navigate('/home')}>Inicio</a>
+                                <a className="nav-link active" aria-current="page" style={{textTransform:"uppercase"}} onClick={()=>navigate('/home')}>Inicio</a>
                             </li>
                         
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="#boda" style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;boda</a>
+                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;boda</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="#ocasion" style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;ocasión</a>
+                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;ocasión</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="#oferta" style={{textTransform:"uppercase"}}>Ropa&nbsp;en&nbsp;oferta</a>
+                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;en&nbsp;oferta</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="#ELFOOTER" style={{textTransform:"uppercase"}}>Contáctanos</a>
+                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Contáctanos</a>
                             </li>
                         </ul>
                         <ul className="navbar-nav ml-auto mb-2 mb-md-0">

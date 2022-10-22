@@ -1,8 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import {NavbarCliente} from './componentes/navbarCliente';
 
 export const Home = () => {
+
+    const navigate = useNavigate();
+
   return (
     <div>
       <NavbarCliente/>

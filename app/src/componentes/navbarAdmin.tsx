@@ -1,9 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export const NavbarAdmin = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    console.log('pathname', location.pathname);
 
     const cerrarsesion = () => {
         sessionStorage.clear();
@@ -22,19 +25,19 @@ export const NavbarAdmin = () => {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav mx-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" style={{textTransform:"uppercase"}} onClick={()=>navigate('/admin')}>Inicio</a>
+                                <a className={`nav-link ${location.pathname == '/admin' ? 'active' : ''}`} onClick={()=>navigate('/admin')} aria-current="page" style={{textTransform:"uppercase"}}>Inicio</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="inventario.php" style={{textTransform:"uppercase"}}>Inventario</a>
+                                <a className={`nav-link ${location.pathname == '/admin/inventario' ? 'active' : ''}`} onClick={()=>navigate('/admin/inventario')} style={{textTransform:"uppercase"}}>Inventario</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="pedidos.php" style={{textTransform:"uppercase"}}>Pedidos</a>
+                                <a className={`nav-link ${location.pathname == '/admin/pedidos' ? 'active' : ''}`} onClick={()=>navigate('/admin/pedidos')} style={{textTransform:"uppercase"}}>Pedidos</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="descuentos.php" style={{textTransform:"uppercase"}}>Descuentos</a>
+                                <a className={`nav-link ${location.pathname == '/admin/descuentos' ? 'active' : ''}`} onClick={()=>navigate('/admin/descuentos')} style={{textTransform:"uppercase"}}>Descuentos</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link" href="ayuda.php" style={{textTransform:"uppercase"}}>Ayuda</a>
+                                <a className={`nav-link ${location.pathname == '/admin/ayuda' ? 'active' : ''}`} onClick={()=>navigate('/admin/ayuda')} style={{textTransform:"uppercase"}}>Ayuda</a>
                             </li>
                         </ul>
                         <ul className="navbar-nav ml-auto mb-2 mb-md-0">
