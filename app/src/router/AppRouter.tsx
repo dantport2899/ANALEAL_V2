@@ -8,6 +8,8 @@ import { AdminHome } from "../admin/adminHome";
 import { Inventario } from "../admin/inventario";
 import { Pedidos } from "../admin/pedidos";
 import { Descuentos } from "../admin/descuentos";
+import { PruebaForms } from "../admin/pruebaForms";
+
 
 import { UserHome } from "../user/UserHome";
 import { Home } from "../home";
@@ -23,6 +25,7 @@ export const AppRouter = () => {
         <Route path="/admin/inventario" element={<Inventario/>}/>
         <Route path="/admin/pedidos" element={<Pedidos/>}/>
         <Route path="/admin/descuentos" element={<Descuentos/>}/>
+        <Route path="/admin/formulario" element={<PruebaForms/>}/>
         
         <Route path="/user" element={<UserHome/>}/>
         
