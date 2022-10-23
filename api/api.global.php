@@ -26,12 +26,15 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.users.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.newuser.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.getusers.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.prendas.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.descuentos.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.ordenes.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
 $newUser = new NewUser();
 $getUser = new GetUsers();
 $prendas = new Prendas();
+$ordenes = new Ordenes();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -99,6 +102,47 @@ switch ($data->action) {
     case 'deleteprenda':
         $response = $prendas -> deletePrenda($data);
         break;
+
+    case 'newdescuento':
+        $response = $descuentos -> newDescuento($data);
+        break;
+
+    case 'gettotaldescuentos':
+        $response = $descuentos -> totalDescuentos($data);
+        break;
+
+    case 'getdescuentos':
+        $response = $descuentos -> getDescuentos($data);
+        break;
+
+    case 'modifydescuento':
+        $response = $descuentos -> modifyDescuento($data);
+        break;
+
+    case 'deletedescuento':
+        $response = $descuentos -> deleteDescuento($data);
+        break;
+    
+    case 'neworden':
+        $response = $ordenes -> newDescuento($data);
+        break;
+
+    case 'gettotalordenes':
+        $response = $ordenes -> totalDescuentos($data);
+        break;
+
+    case 'getordenes':
+        $response = $ordenes -> getDescuentos($data);
+        break;
+
+    case 'modifyorden':
+        $response = $ordenes -> modifyDescuento($data);
+        break;
+
+    case 'deleteorden':
+        $response = $ordenes -> deleteDescuento($data);
+        break;
+
     default:
         # code...
         break;

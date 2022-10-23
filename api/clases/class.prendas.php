@@ -146,7 +146,7 @@ class Prendas
                 $querty = "DELETE FROM `prendas` WHERE `idprenda` = $datauser->idprenda";
                 $conexion->consulta($querty);
 
-                $response['message'] = 'Usuario borrado con éxito';
+                $response['message'] = 'Prenda borrada con éxito';
             }else{
                 $response['code'] = 9;
                 $response['error'] = true;
