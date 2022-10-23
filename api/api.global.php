@@ -25,11 +25,13 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.accessuser.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.users.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.newuser.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.getusers.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.prendas.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
 $newUser = new NewUser();
 $getUser = new GetUsers();
+$prendas = new Prendas();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -77,7 +79,26 @@ switch ($data->action) {
     case 'deleteuser':
         $response = $getUser -> deleteUser($data);
         break;
-        
+    
+    case 'newprenda':
+        $response = $prendas -> newPrenda($data);
+        break;
+    
+    case 'gettotalprendas':
+        $response = $prendas -> totalPrendas($data);
+        break;
+    
+    case 'getprendas':
+        $response = $prendas -> getPrendas($data);
+        break;
+
+    case 'modifyprenda':
+        $response = $prendas -> modifyPrenda($data);
+        break;
+    
+    case 'deleteprenda':
+        $response = $prendas -> deletePrenda($data);
+        break;
     default:
         # code...
         break;
