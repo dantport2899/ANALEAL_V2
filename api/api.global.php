@@ -28,6 +28,8 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.getusers.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.prendas.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.descuentos.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.ordenes.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.tallas.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.estilo.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
@@ -35,6 +37,9 @@ $newUser = new NewUser();
 $getUser = new GetUsers();
 $prendas = new Prendas();
 $ordenes = new Ordenes();
+$descuentos = new Descuentos();
+$tallas = new Tallas();
+$estilos = new Estilo();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -141,6 +146,14 @@ switch ($data->action) {
 
     case 'deleteorden':
         $response = $ordenes -> deleteOrden($data);
+        break;
+
+    case 'gettallas':
+        $response = $tallas -> getTallas($data);
+        break;
+
+    case 'getstilos':
+        $response = $estilos -> getEstilos($data);
         break;
 
     default:
