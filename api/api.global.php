@@ -124,23 +124,23 @@ switch ($data->action) {
         break;
     
     case 'neworden':
-        $response = $ordenes -> newDescuento($data);
+        $response = $ordenes -> newOrden($data);
         break;
 
     case 'gettotalordenes':
-        $response = $ordenes -> totalDescuentos($data);
+        $response = $ordenes -> totalOrdenes($data);
         break;
 
     case 'getordenes':
-        $response = $ordenes -> getDescuentos($data);
+        $response = $ordenes -> getOrdenes($data);
         break;
 
     case 'modifyorden':
-        $response = $ordenes -> modifyDescuento($data);
+        $response = $ordenes -> modifyOrden($data);
         break;
 
     case 'deleteorden':
-        $response = $ordenes -> deleteDescuento($data);
+        $response = $ordenes -> deleteOrden($data);
         break;
 
     default:

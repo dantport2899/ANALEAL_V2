@@ -40,9 +40,9 @@ class Ordenes
     
         $response = array();
         
-        $Totaldescuentos = $conexion->consulta("SELECT COUNT(*) FROM `descuentos`");
+        $Totalpedidos = $conexion->consulta("SELECT COUNT(*) FROM `pedidos`");
 
-        $response['Totaldescuentos'] = reset($Totaldescuentos[0]);
+        $response['Totalpedidos'] = reset($Totalpedidos[0]);
         
 
         return $response;
@@ -54,33 +54,33 @@ class Ordenes
     
         $response = array();
 
-        $datalimite = $data->data;
+        $dataorden = $data->data;
 
-        if($datalimite->idrol != 1){
+        if($dataorden->idrol != 1){
             $response['code'] = 1;
             $response['error'] = true;
             $response['message'] = 'Nivel de usuario no valido';
 
-        }else if(isset($datalimite->inicio)){
+        }else if(isset($dataorden->inicio)){
 
-            if(!isset($datalimite->orderby)){
+            if(!isset($dataorden->orderby)){
                 $response['code'] = 2;
                 $response['error'] = true;
                 $response['message'] = 'Se requiere de el tipo de orden';
     
             }else{
-                $inicio = $datalimite->inicio;
-                $limite = $datalimite->limite;
+                $inicio = $dataorden->inicio;
+                $limite = $dataorden->limite;
     
-                $sql = "SELECT * FROM `descuentos` ORDER BY ".$datalimite->orderby." ".$datalimite->order." LIMIT ".$inicio.",".$limite." ";
-                $prendas = $conexion->consulta($sql);
-                $response['descuentos'] = $prendas;
+                $sql = "SELECT * FROM `pedidos` ORDER BY ".$dataorden->orderby." ".$dataorden->order." LIMIT ".$inicio.",".$limite." ";
+                $pedidos = $conexion->consulta($sql);
+                $response['descuentos'] = $pedidos;
             }
         }else{
-            $sql = "SELECT * FROM `descuentos`";
+            $sql = "SELECT * FROM `pedidos`";
 
-            $prendas = $conexion->consulta($sql);
-            $response['descuentos'] = $prendas;
+            $pedidos = $conexion->consulta($sql);
+            $response['pedidos'] = $pedidos;
         }
 
         return $response;
@@ -92,27 +92,35 @@ class Ordenes
     
         $response = array();
                 
-        $datadescuento = $data->data;
+        $dataorden = $data->data;
 
-        if (empty($datadescuento->nom_descuento)) {
+        if (empty($dataorden->idusuario)) {
             $response['code'] = 1;
             $response['error'] = true;
-            $response['message'] = 'Nombre de descuento vacío.';
-        } else if (empty($datadescuento->iddescuento)) {
+            $response['message'] = 'Usuario de la orden vacío.';
+        } else if (empty($dataorden->idpedidos)) {
             $response['code'] = 2;
             $response['error'] = true;
-            $response['message'] = 'Id de descuento vacío.';
-        } else if (empty($datadescuento->descuento)) {
-            $response['code'] = 2;
+            $response['message'] = 'Id de orden vacío.';
+        } else if (empty($dataorden->fecha)) {
+            $response['code'] = 3;
             $response['error'] = true;
-            $response['message'] = 'Descuento vacío.';
+            $response['message'] = 'Fecha vacía.';
+        } else if (empty($dataorden->fechaentrega)) {
+            $response['code'] = 4;
+            $response['error'] = true;
+            $response['message'] = 'Fecha de entrega vacía.';
+        } else if (empty($dataorden->correo)) {
+            $response['code'] = 4;
+            $response['error'] = true;
+            $response['message'] = 'Correo de entrega vacío.';
         }else{
 
-            $querty = "UPDATE descuentos SET nom_descuento='$datadescuento->nom_descuento', descripcion='$datadescuento->descripcion', descuento=$datadescuento->descuento WHERE iddescuento=$datadescuento->iddescuento";
+            $querty = "UPDATE pedidos SET clavetransaccion='$dataorden->clavetransaccion', idusuario=$dataorden->idusuario, correo='$dataorden->correo', total=$dataorden->total, fecha='$dataorden->fecha', fechaentrega='$dataorden->fechaentrega', descripcion='$dataorden->descripcion', direccion='$dataorden->direccion', status='$dataorden->status' WHERE idpedidos=$dataorden->idpedidos";
 
             $conexion->consulta($querty);
 
-            $response['message'] = 'Descuento modificada con éxito';
+            $response['message'] = 'Pedido modificado con éxito';
         }
 
         return $response;
@@ -124,26 +132,26 @@ class Ordenes
     
         $response = array();
                 
-        $datadescuento = $data->data;
+        $dataorden = $data->data;
 
-        if (empty($datadescuento->iddescuento)) {
+        if (empty($dataorden->idpedidos)) {
             $response['code'] = 1;
             $response['error'] = true;
             $response['message'] = 'Id vacío.';
         }else{
-            $descuentoid = $conexion->consulta("SELECT * FROM `descuentos` WHERE `iddescuento` = $datadescuento->iddescuento");
+            $descuentoid = $conexion->consulta("SELECT * FROM `pedidos` WHERE `idpedidos` = $dataorden->idpedidos");
             
             // verificar si el usuario esta registrado
             if (!empty($descuentoid)) {       
-                $querty = "DELETE FROM `descuentos` WHERE `iddescuento` = $datadescuento->iddescuento";
+                $querty = "DELETE FROM `pedidos` WHERE `idpedidos` = $dataorden->idpedidos";
                 $conexion->consulta($querty);
 
                 $response['message'] = 'Descuento borrado con éxito';
             }else{
                 $response['code'] = 9;
                 $response['error'] = true;
-                $response['message'] = 'Este descuento no existe en la base de datos';
-                $response['id'] = $datadescuento->idprenda;               
+                $response['message'] = 'Este pedido no existe en la base de datos';
+                $response['id'] = $dataorden->idpedidos;               
             }       
         }
         return $response;
