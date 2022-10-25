@@ -74,7 +74,7 @@ class Ordenes
     
                 $sql = "SELECT * FROM `pedidos` ORDER BY ".$dataorden->orderby." ".$dataorden->order." LIMIT ".$inicio.",".$limite." ";
                 $pedidos = $conexion->consulta($sql);
-                $response['descuentos'] = $pedidos;
+                $response['pedidos'] = $pedidos;
             }
         }else{
             $sql = "SELECT * FROM `pedidos`";

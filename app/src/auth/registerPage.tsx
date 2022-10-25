@@ -78,6 +78,7 @@ export const RegisterPage = () => {
                                         
                                     </div>
                                 </form>
+                                <br /><br />
                             </div>
                         </div>
                     </div>

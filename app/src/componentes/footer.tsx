@@ -4,7 +4,7 @@ import React from 'react'
 export const Footer = () => {
   return (
     <footer className="footer mt-auto py-3 bg-light bg-dark text-white">
-            <div className="container">
+            {/* <div className="container">
                 <form className="">
                     <div className="row d-flex justify-content-center">
                     <div className="col-auto">
@@ -26,7 +26,7 @@ export const Footer = () => {
                     </div>
                 </form>
 
-            </div>
+            </div> */}
             
             <div className="container">
                 <p style={{textAlign:'center'}}>Descripción breve del negocio y sobre qué detalles tiene.</p>

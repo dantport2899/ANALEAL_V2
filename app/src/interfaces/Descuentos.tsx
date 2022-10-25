@@ -10,3 +10,7 @@ export interface Descuento {
     descripcion:   string;
     descuento:     string;
 }
+
+export interface Totaldescuentos {
+    Totaldescuentos: string;
+}

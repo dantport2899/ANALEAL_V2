@@ -3,6 +3,7 @@ import { NavbarAdmin } from "../componentes/navbarAdmin";
 import "./../styles/newtable.css";
 import {useInventario} from "../hooks/useInventario"
 import { PrendaRow } from '../componentes/prendaRow';
+import { useNavigate } from "react-router-dom";
 
 export const Inventario = () => {
 
@@ -25,6 +26,7 @@ export const Inventario = () => {
 
   } = useInventario();
 
+  const navigate = useNavigate();
 
   console.log(TallaList);
 
@@ -75,7 +77,7 @@ export const Inventario = () => {
                   <div className="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                     <div>
                       <a
-                        href="#"
+                        onClick={()=>navigate('/admin/inventario/form')}
                         data-bs-toggle="modal"
                         data-bs-target=".add-new"
                         className="btn btn-primary"
@@ -124,7 +126,7 @@ export const Inventario = () => {
               <div className="row g-0 align-items-center pb-4">
                 <div className="col-sm-6">
                   <div>
-                    <p className="mb-sm-0">Mostrando 1 a 5 de #devestidos</p>
+                    <p className="mb-sm-0">Mostrando {PrendaList?.prendas.length} de {Totalprendas} #devestidos</p>
                   </div>
                 </div>
                 <div className="col-sm-6">

@@ -6,9 +6,12 @@ import { RegisterPage } from "../auth/registerPage";
 
 import { AdminHome } from "../admin/adminHome";
 import { Inventario } from "../admin/inventario";
+import { PrendaForm } from "../admin/prendaForm";
 import { Pedidos } from "../admin/pedidos";
+import { PedidosForm } from "../admin/pedidosForm";
 import { Descuentos } from "../admin/descuentos";
-import { PruebaForms } from "../admin/pruebaForms";
+import { DescuentoForms } from "../admin/descuentoForm";
+import { PruebaForms } from "../admin/pruebaFormss";
 
 
 import { UserHome } from "../user/UserHome";
@@ -23,8 +26,11 @@ export const AppRouter = () => {
         
         <Route path="/admin" element={<AdminHome/>}/>
         <Route path="/admin/inventario" element={<Inventario/>}/>
+        <Route path="/admin/inventario/form" element={<PrendaForm/>}/>
         <Route path="/admin/pedidos" element={<Pedidos/>}/>
+        <Route path="/admin/pedidos/form" element={<PedidosForm/>}/>
         <Route path="/admin/descuentos" element={<Descuentos/>}/>
+        <Route path="/admin/descuentos/form" element={<DescuentoForms/>}/>
         <Route path="/admin/formulario" element={<PruebaForms/>}/>
         
         <Route path="/user" element={<UserHome/>}/>
