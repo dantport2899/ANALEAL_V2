@@ -14,6 +14,8 @@ export const useInventario = () => {
     const [TallaList, setTallaList] = useState<Tallas>();
     const [EstiloList, setEstiloList] = useState<Estilos>();
     const [DataSearch, setDataSearch] = useState<string>()
+    const [orderby, setorderby] = useState<string>("existencias")
+    const [asc, setasc] = useState<string>("ASC")
     const [pageno, setpageno] = useState<number>(1)
     const [total_pages, settotal_pages] = useState<number>(1)
     const [Error, setError] = useState<string>()
@@ -23,7 +25,7 @@ export const useInventario = () => {
 
     useEffect(() => {
         getTotalPrendas();
-    }, [pageno,DataSearch,update])
+    }, [pageno,DataSearch,update,orderby,asc])
 
         
     const getTotalPrendas = async() => {
@@ -79,8 +81,8 @@ export const useInventario = () => {
                     idrol: sessionStorage.user_types_id,
                     inicio:offset,
                     limite:valoresporpagina,
-                    orderby:"existencias",
-                    order:"ASC"
+                    orderby:orderby,
+                    order:asc
                 }
             }
         }
@@ -180,6 +182,9 @@ export const useInventario = () => {
     setupdate,
     DescuentoList,
     TallaList,
-    EstiloList
+    EstiloList,
+    setorderby,
+    asc,
+    setasc
   } 
 }

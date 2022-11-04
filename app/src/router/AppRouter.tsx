@@ -13,8 +13,14 @@ import { Descuentos } from "../admin/descuentos";
 import { DescuentoForms } from "../admin/descuentoForm";
 import { PruebaForms } from "../admin/pruebaFormss";
 
-
 import { UserHome } from "../user/UserHome";
+import { Usergaleria } from "../user/usergaleria";
+import { UserVerprenda } from "../user/userVerprenda";
+import { UserCarrito } from "../user/userCarrito";
+import { UserConfirmacioncompra } from "../user/userConfirmacioncompra";
+import { UserHistorial } from "../user/userHistorial";
+import { UserDetalles } from "../user/userDetalles";
+import { UserConfig } from "../user/userConfig";
 import { Home } from "../home";
 
 export const AppRouter = () => {
@@ -34,6 +40,13 @@ export const AppRouter = () => {
         <Route path="/admin/formulario" element={<PruebaForms/>}/>
         
         <Route path="/user" element={<UserHome/>}/>
+        <Route path="/user/galeria" element={<Usergaleria/>}/>
+        <Route path="/user/prenda" element={<UserVerprenda/>}/>
+        <Route path="/user/carrito" element={<UserCarrito/>}/>
+        <Route path="/user/confirmar" element={<UserConfirmacioncompra/>}/>
+        <Route path="/user/historial" element={<UserHistorial/>}/>
+        <Route path="/user/detalles" element={<UserDetalles/>}/>
+        <Route path="/user/config" element={<UserConfig/>}/>
         
         <Route path="/*" element={<Navigate to="/home"/>}/>
     </Routes>

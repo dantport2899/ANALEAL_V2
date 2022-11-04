@@ -6,7 +6,6 @@ export const NavbarAdmin = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log('pathname', location.pathname);
 
     const cerrarsesion = () => {
         sessionStorage.clear();

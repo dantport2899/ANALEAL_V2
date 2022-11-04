@@ -1,9 +1,16 @@
 import React from "react";
 import { NavbarAdmin } from "../componentes/navbarAdmin";
+import { Navigation, Route } from 'react-router-dom';
 
 import "./../styles/estilos.css";
 
+interface Props {
+  idprenda?: number;
+}
+
 export const PrendaForm = () => {
+
+
   return (
     <div>
       <script>

@@ -1,9 +1,10 @@
 import { url } from "inspector";
 import React from "react";
-import { Prenda } from '../interfaces/Inventario';
+import { Prenda, Prendas } from '../interfaces/Inventario';
 import { Descuentos, Descuento } from '../interfaces/Descuentos';
 import { Tallas, Talla } from '../interfaces/Tallas';
 import { Estilos, Estilo } from '../interfaces/Estilos';
+import { useNavigate } from "react-router-dom";
 
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
 export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }: Props) => {
 
     let Prendas:Prenda = prenda;  
+    const navigate = useNavigate();
     
     // //mostrar Descuento
     let Descuento:string = "Descuento";
@@ -53,7 +55,7 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
         <ul className="list-inline mb-0">
           <li className="list-inline-item">
             <a
-              href="javascript:void(0);"
+              onClick={()=>navigate('/admin/inventario/form')}
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Edit"

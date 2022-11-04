@@ -3,6 +3,7 @@ import { NavbarAdmin } from "../componentes/navbarAdmin";
 import "./../styles/newtable.css";
 import {useInventario} from "../hooks/useInventario"
 import { PrendaRow } from '../componentes/prendaRow';
+import { Paginacion } from '../componentes/paginacion';
 import { useNavigate } from "react-router-dom";
 
 export const Inventario = () => {
@@ -22,13 +23,24 @@ export const Inventario = () => {
     setupdate,
     DescuentoList,
     TallaList,
-    EstiloList
+    EstiloList,
+    setorderby,
+    asc,
+    setasc
 
   } = useInventario();
 
   const navigate = useNavigate();
 
-  console.log(TallaList);
+  const changueOrder = (col:string) => {
+    setorderby(col)
+
+    if (asc=="ASC") {
+      setasc("DESC");
+    }else{
+      setasc("ASC")
+    }
+  }
 
   return (
     <div>
@@ -98,24 +110,28 @@ export const Inventario = () => {
                             <th scope="col" style={{ width: "200px" }}>
                               Acciones
                             </th>
-                            <th scope="col">Id</th>
+                            <th scope="col" onClick={()=>changueOrder("idprenda")}>Id</th>
                             <th scope="col">Imagen</th>
-                            <th scope="col">Prenda</th>
-                            <th scope="col">Talla</th>
-                            <th scope="col">Color</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Existencias</th>
-                            <th scope="col">Departamento</th>
-                            <th scope="col">Descuento aplicado</th>
-                            <th scope="col">Descripcion</th>
+                            <th scope="col" onClick={()=>changueOrder("nom_prenda")}>Prenda</th>
+                            <th scope="col" onClick={()=>changueOrder("idtalla")}>Talla</th>
+                            <th scope="col" onClick={()=>changueOrder("color")}>Color</th>
+                            <th scope="col" onClick={()=>changueOrder("precio")}>Precio</th>
+                            <th scope="col" onClick={()=>changueOrder("existencias")}>Existencias</th>
+                            <th scope="col" onClick={()=>changueOrder("iddepartamento")}>Departamento</th>
+                            <th scope="col" onClick={()=>changueOrder("iddescuento")}>Descuento aplicado</th>
+                            <th scope="col" onClick={()=>changueOrder("descripcion")}>Descripcion</th>
 
                           </tr>
                         </thead>
                         <tbody>
                                 {
+                                  (PrendaList && DescuentoList && TallaList)
+                                  ?
                                     PrendaList?.prendas.map(prenda => (
                                         <PrendaRow key={prenda.idprenda} prenda={prenda} update={update} setUpdate={setupdate} descuentos={DescuentoList?.descuentos} talla={TallaList?.tallas} estilo={EstiloList?.estilos}/>
-                                    ))                     
+                                    ))
+                                  :
+                                  <></>
                                 }
                         </tbody>
                       </table>
@@ -123,6 +139,7 @@ export const Inventario = () => {
                   </div>
                 </div>
               </div>
+              <br />
               <div className="row g-0 align-items-center pb-4">
                 <div className="col-sm-6">
                   <div>
@@ -130,45 +147,7 @@ export const Inventario = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <div className="float-sm-end">
-                    <ul className="pagination mb-sm-0">
-                      <li className="page-item disabled">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li className="page-item active">
-                        <a href="#" className="page-link">
-                          1
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          2
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          3
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          4
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          5
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <Paginacion pageno={pageno} totalpages={total_pages} setpageno={setpageno}/>
                 </div>
               </div>
             </div>

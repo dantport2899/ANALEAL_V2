@@ -7,17 +7,19 @@ export const useDescuentos = () => {
   
     const [TotalDescuentos, setTotalDescuentos] = useState<string>();
     const [DescuentoList, setDescuentoList] = useState<Descuentos>();
-    const [DataSearch, setDataSearch] = useState<string>()
-    const [pageno, setpageno] = useState<number>(1)
+    const [DataSearch, setDataSearch] = useState<string>();
+    const [orderby, setorderby] = useState<string>("iddescuento");
+    const [asc, setasc] = useState<string>("ASC");
+    const [pageno, setpageno] = useState<number>(1);
     const [total_pages, settotal_pages] = useState<number>(1)
-    const [Error, setError] = useState<string>()
+    const [Error, setError] = useState<string>();
 
     const [update, setupdate] = useState<boolean>(false);
     
 
     useEffect(() => {
         getTotalDescuentos();
-    }, [pageno,DataSearch,update])
+    }, [pageno,DataSearch,update,orderby,asc])
 
         
     const getTotalDescuentos = async() => {
@@ -49,15 +51,15 @@ export const useDescuentos = () => {
         let offset:number = (pageno-1) * valoresporpagina;
 
         settotal_pages(Math.ceil(Totaldescuentos/valoresporpagina));
-
-        let getPrenda = {}
        
         let getDescuento = {
             action: "getdescuentos",
                 data:{
                     idrol: sessionStorage.user_types_id,
-                    orderby:"iddescuento",
-                    order:"ASC"
+                    inicio:offset,
+                    limite:valoresporpagina,
+                    orderby:orderby,
+                    order:asc
                 }
         }
 
@@ -85,6 +87,9 @@ export const useDescuentos = () => {
     Error,
     setError,
     update,
-    setupdate
+    setupdate,
+    setorderby,
+    asc,
+    setasc
   } 
 }

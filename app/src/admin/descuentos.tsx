@@ -4,6 +4,7 @@ import "./../styles/newtable.css";
 import {useDescuentos} from "../hooks/useDescuentos"
 import { DescuentoRow } from '../componentes/descuentoRow';
 import { useNavigate } from "react-router-dom";
+import { Paginacion } from '../componentes/paginacion';
 
 
 export const Descuentos = () => {
@@ -20,9 +21,22 @@ export const Descuentos = () => {
     update,
     setupdate,
     DescuentoList,
+    setorderby,
+    asc,
+    setasc
   } = useDescuentos();
 
   const navigate = useNavigate();
+  
+  const changueOrder = (col:string) => {
+    setorderby(col)
+
+    if (asc=="ASC") {
+      setasc("DESC");
+    }else{
+      setasc("ASC")
+    }
+  }
 
   return (
     <div>
@@ -92,10 +106,10 @@ export const Descuentos = () => {
                             <th scope="col" style={{ width: "200px" }}>
                               Acciones
                             </th>
-                            <th scope="col">Id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Porcentaje</th>
-                            <th scope="col">Descripcion</th>
+                            <th scope="col" onClick={()=>changueOrder("iddescuento")}>Id</th>
+                            <th scope="col" onClick={()=>changueOrder("nom_descuento")}>Nombre</th>
+                            <th scope="col" onClick={()=>changueOrder("descuento")}>Porcentaje</th>
+                            <th scope="col" onClick={()=>changueOrder("descripcion")}>Descripcion</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -117,45 +131,7 @@ export const Descuentos = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <div className="float-sm-end">
-                    <ul className="pagination mb-sm-0">
-                      <li className="page-item disabled">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li className="page-item active">
-                        <a href="#" className="page-link">
-                          1
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          2
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          3
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          4
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          5
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <Paginacion pageno={pageno} totalpages={total_pages} setpageno={setpageno}/>
                 </div>
               </div>
             </div>

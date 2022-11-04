@@ -5,7 +5,11 @@ export const NavbarCliente = () => {
 
     const navigate = useNavigate();
 
-    
+    const cerrarsesion = () => {
+        sessionStorage.clear();
+        navigate('/home');
+        window.location.reload();
+    }
   return (
     <header>  
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -33,11 +37,48 @@ export const NavbarCliente = () => {
                                 <a className="nav-link"  style={{textTransform:"uppercase"}}>Contáctanos</a>
                             </li>
                         </ul>
-                        <ul className="navbar-nav ml-auto mb-2 mb-md-0">
-                            <li className="nav-item px-2">
-                                <a className="nav-link" style={{textTransform:"uppercase"}} onClick={()=>navigate('/login')}>Iniciar&nbsp;sesión</a>
-                            </li>
-                        </ul>
+
+                        {
+                            (sessionStorage.user_types_id)
+                            ?
+                            (
+                            <>
+                            <ul className="navbar-nav ml-auto mb-2 mb-md-0">
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" style={{textTransform:"uppercase"}} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Carrito[0]
+                                    </a>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a className="dropdown-item"  onClick={()=>navigate('/user/carrito')} >Ver Carrito</a></li>
+                                            <li><a className="dropdown-item" >Limpiar carrito</a></li>
+                                        </ul>
+                                </li>
+                            </ul>
+                            <ul className="navbar-nav ml-auto mb-2 mb-md-0">
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle active" aria-current="page" style={{textTransform:"uppercase"}} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {sessionStorage.user}
+                                </a>
+                                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a className="dropdown-item" onClick={()=>navigate('/user/config')}>Ir a perfil</a></li>
+                                        <li><a className="dropdown-item" onClick={()=>navigate('/user/historial')}>Revisar pedidos</a></li>
+                                        <li><a className="dropdown-divider"></a></li>
+                                        <li><a className="dropdown-item" onClick={()=>cerrarsesion()}>Cerrar sesión</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            </>
+                            )
+                            :
+                            (
+                            <ul className="navbar-nav ml-auto mb-2 mb-md-0">
+                                <li className="nav-item px-2">
+                                    <a className="nav-link" style={{textTransform:"uppercase"}} onClick={()=>navigate('/login')}>Iniciar&nbsp;sesión</a>
+                                </li>
+                            </ul>
+                            )
+                        }
+                        
                     </div>
                 </div>
             </nav>

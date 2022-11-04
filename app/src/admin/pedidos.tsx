@@ -4,6 +4,7 @@ import "./../styles/newtable.css";
 import { usePedidos } from "../hooks/usePedidos";
 import { PedidosRow } from "../componentes/pedidosRow";
 import { useNavigate } from "react-router-dom";
+import { Paginacion } from '../componentes/paginacion';
 
 export const Pedidos = () => {
   const {
@@ -18,9 +19,23 @@ export const Pedidos = () => {
     update,
     setupdate,
     PedidoList,
+    setorderby,
+    asc,
+    setasc
+
   } = usePedidos();
 
   const navigate = useNavigate();
+
+  const changueOrder = (col:string) => {
+    setorderby(col)
+
+    if (asc=="ASC") {
+      setasc("DESC");
+    }else{
+      setasc("ASC")
+    }
+  }
 
   return (
     <div>
@@ -79,14 +94,14 @@ export const Pedidos = () => {
                             <th scope="col" style={{ width: "200px" }}>
                               Acciones
                             </th>
-                            <th scope="col">Id pedido</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Fecha de entrega</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Clave transaccion</th>
+                            <th scope="col" onClick={()=>changueOrder("idpedidos")}>Id pedido</th>
+                            <th scope="col" onClick={()=>changueOrder("correo")}>Correo</th>
+                            <th scope="col" onClick={()=>changueOrder("descripcion")}>Descripcion</th>
+                            <th scope="col" onClick={()=>changueOrder("status")}>Estado</th>
+                            <th scope="col" onClick={()=>changueOrder("fecha")}>Fecha</th>
+                            <th scope="col" onClick={()=>changueOrder("fechaentrega")}>Fecha de entrega</th>
+                            <th scope="col" onClick={()=>changueOrder("total")}>Total</th>
+                            <th scope="col" onClick={()=>changueOrder("clavetransaccion")}>Clave transaccion</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -114,45 +129,7 @@ export const Pedidos = () => {
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <div className="float-sm-end">
-                    <ul className="pagination mb-sm-0">
-                      <li className="page-item disabled">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li className="page-item active">
-                        <a href="#" className="page-link">
-                          1
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          2
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          3
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          4
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          5
-                        </a>
-                      </li>
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <Paginacion pageno={pageno} totalpages={total_pages} setpageno={setpageno}/>
                 </div>
               </div>
             </div>

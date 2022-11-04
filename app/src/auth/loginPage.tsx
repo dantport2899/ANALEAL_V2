@@ -26,6 +26,7 @@ export const LoginPage = () => {
         const resp = await reqqResapi.post<User>('',Jsonsend).then(res => {
 
             if(res.data.user){
+                var carrito = [];
 
                 sessionStorage.setItem('user',res.data.user.correo,);
                 sessionStorage.setItem('user_types_id',res.data.user.idrol,);
@@ -36,7 +37,7 @@ export const LoginPage = () => {
                     navigate('/admin');
                 }else if(res.data.user.idrol==="2"){
                     alert("Bienvenido "+res.data.user.username);
-                    navigate('/user');
+                    navigate('/user/galeria');
                 }else{
                     alert("Rango de usuario no especificado");
                     navigate('/login');

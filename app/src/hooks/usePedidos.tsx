@@ -7,17 +7,19 @@ export const usePedidos = () => {
   
     const [TotalPedidos, setTotalPedidos] = useState<string>();
     const [PedidoList, setPedidoList] = useState<Pedidos>();
-    const [DataSearch, setDataSearch] = useState<string>()
-    const [pageno, setpageno] = useState<number>(1)
-    const [total_pages, settotal_pages] = useState<number>(1)
-    const [Error, setError] = useState<string>()
+    const [DataSearch, setDataSearch] = useState<string>();
+    const [orderby, setorderby] = useState<string>("fecha");
+    const [asc, setasc] = useState<string>("ASC");
+    const [pageno, setpageno] = useState<number>(1);
+    const [total_pages, settotal_pages] = useState<number>(1);
+    const [Error, setError] = useState<string>();
 
     const [update, setupdate] = useState<boolean>(false);
     
 
     useEffect(() => {
         getTotalPedidos();
-    }, [pageno,DataSearch,update])
+    }, [pageno,DataSearch,update,orderby,asc])
 
         
     const getTotalPedidos = async() => {
@@ -54,8 +56,10 @@ export const usePedidos = () => {
             action: "getordenes",
                 data:{
                     idrol: sessionStorage.user_types_id,
-                    orderby:"fecha",
-                    order:"ASC"
+                    inicio:offset,
+                    limite:valoresporpagina,
+                    orderby:orderby,
+                    order:asc
                 }
         }
 
@@ -83,6 +87,9 @@ export const usePedidos = () => {
     Error,
     setError,
     update,
-    setupdate
+    setupdate,
+    setorderby,
+    asc,
+    setasc
   } 
 }
