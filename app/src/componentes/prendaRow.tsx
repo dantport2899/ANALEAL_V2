@@ -7,6 +7,7 @@ import { Estilos, Estilo } from '../interfaces/Estilos';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { PrendaDeleteModal } from './prendaDeleteModal';
+import { EntradaReporteModal } from './EntradaReporteModal';
 
 
 interface Props {
@@ -22,6 +23,7 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
 
     let Prendas:Prenda = prenda;  
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isOpenEntradas, setIsOpenEntradas] = useState(false);
 
     const navigate = useNavigate();
     
@@ -73,6 +75,17 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
             </a>
           </li>
           <li className="list-inline-item">
+              <a
+                onClick={() => setIsOpenEntradas(true)}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Edit"
+                className="px-2 text-primary"
+              >
+                <i className="bx bx-notepad font-size-18"></i>
+              </a>
+            </li>
+          <li className="list-inline-item">
             <a
               onClick={() => setIsOpenDelete(true)}
               data-bs-toggle="tooltip"
@@ -104,6 +117,14 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
       {isOpenDelete && (
         <PrendaDeleteModal
           setIsOpen={setIsOpenDelete}
+          document={Prendas}
+          update={update}
+          setUpdate={setUpdate}
+        />
+      )}
+      {isOpenEntradas && (
+        <EntradaReporteModal
+          setIsOpen={setIsOpenEntradas}
           document={Prendas}
           update={update}
           setUpdate={setUpdate}

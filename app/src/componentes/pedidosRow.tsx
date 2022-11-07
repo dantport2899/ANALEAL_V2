@@ -36,6 +36,7 @@ export const PedidosRow = ({ pedido, update, setUpdate }: Props) => {
               <i className="bx bx-pencil font-size-18"></i>
             </a>
           </li>
+          
           <li className="list-inline-item">
             <a
               onClick={() => setIsOpenDelete(true)}

@@ -36,7 +36,7 @@ export const NavbarAdmin = () => {
                                 <a className={`nav-link ${location.pathname == '/admin/descuentos' ? 'active' : ''}`} onClick={()=>navigate('/admin/descuentos')} style={{textTransform:"uppercase"}}>Descuentos</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className={`nav-link ${location.pathname == '/admin/formulario' ? 'active' : ''}`} onClick={()=>navigate('/admin/formulario')} style={{textTransform:"uppercase"}}>Ayuda</a>
+                                <a className={`nav-link ${location.pathname == '/admin/reportes' ? 'active' : ''}`} onClick={()=>navigate('/admin/reportes')} style={{textTransform:"uppercase"}}>Reportes</a>
                             </li>
                         </ul>
                         <ul className="navbar-nav ml-auto mb-2 mb-md-0">

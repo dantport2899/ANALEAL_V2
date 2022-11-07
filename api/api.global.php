@@ -31,6 +31,7 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.ordenes.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.tallas.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.estilo.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.material.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.reportes.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
@@ -42,6 +43,7 @@ $descuentos = new Descuentos();
 $tallas = new Tallas();
 $estilos = new Estilo();
 $materiales = new Material();
+$reportes = new Reportes();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -160,6 +162,22 @@ switch ($data->action) {
     
     case 'getmateriales':
         $response = $materiales -> getMaterial($data);
+        break;
+    
+    case 'newreporte':
+        $response = $reportes -> newReporte($data);
+        break;
+
+    case 'deletereporte':
+        $response = $reportes -> deleteReporte($data);
+        break;
+
+    case 'gettotalreportes':
+        $response = $reportes -> totalReportes($data);
+        break;
+    
+    case 'getreportes':
+        $response = $reportes -> getReportes($data);
         break;
 
     default:

@@ -23,6 +23,7 @@ import { UserDetalles } from "../user/userDetalles";
 import { UserConfig } from "../user/userConfig";
 import { Home } from "../home";
 import { UsuarioForm } from '../auth/usuarioForm';
+import { Reportes } from '../admin/reportes';
 
 export const AppRouter = () => {
   return (
@@ -38,7 +39,7 @@ export const AppRouter = () => {
         <Route path="/admin/pedidos/form" element={<PedidosForm/>}/>
         <Route path="/admin/descuentos" element={<Descuentos/>}/>
         <Route path="/admin/descuentos/form" element={<DescuentoForms/>}/>
-        <Route path="/admin/formulario" element={<PruebaForms/>}/>
+        <Route path="/admin/reportes" element={<Reportes/>}/>
 
         <Route path="/config" element={<UsuarioForm/>}/>
 
