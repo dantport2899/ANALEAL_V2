@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Descuentos } from '../interfaces/Descuentos';
 import { Tallas } from '../interfaces/Tallas';
 import { Estilos } from '../interfaces/Estilos';
+import { Materiales } from '../interfaces/Materiales';
 
 export const useInventario = () => {
   
@@ -13,8 +14,9 @@ export const useInventario = () => {
     const [DescuentoList, setDescuentoList] = useState<Descuentos>();
     const [TallaList, setTallaList] = useState<Tallas>();
     const [EstiloList, setEstiloList] = useState<Estilos>();
+    const [MaterialList, setMaterialList] = useState<Materiales>();
     const [DataSearch, setDataSearch] = useState<string>()
-    const [orderby, setorderby] = useState<string>("existencias")
+    const [orderby, setorderby] = useState<string>("idprenda")
     const [asc, setasc] = useState<string>("ASC")
     const [pageno, setpageno] = useState<number>(1)
     const [total_pages, settotal_pages] = useState<number>(1)
@@ -27,6 +29,12 @@ export const useInventario = () => {
         getTotalPrendas();
     }, [pageno,DataSearch,update,orderby,asc])
 
+    useEffect(() => {
+        getDescuentoList();
+        getTallaList();
+        getEstiloList();
+        getMaterialList();
+    }, [500])
         
     const getTotalPrendas = async() => {
 
@@ -165,6 +173,28 @@ export const useInventario = () => {
         });   
     }
 
+    const getMaterialList = async() => {
+       
+        let getDescuento = {
+            action: "getmateriales",
+                data:{
+                    idrol: sessionStorage.user_types_id,
+                    orderby:"idmaterial",
+                    order:"ASC"
+                }
+        }
+
+
+        const res = await reqqResapi.post<Materiales>('',getDescuento).then(res => {
+            if(res.data.error){
+                setError(res.data.message);
+            }else{
+                setMaterialList(res.data);
+            }
+
+        });   
+    }
+
     
 
   return{
@@ -183,6 +213,7 @@ export const useInventario = () => {
     DescuentoList,
     TallaList,
     EstiloList,
+    MaterialList,
     setorderby,
     asc,
     setasc

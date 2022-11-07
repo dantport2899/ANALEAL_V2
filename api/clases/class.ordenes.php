@@ -116,7 +116,7 @@ class Ordenes
             $response['message'] = 'Correo de entrega vacío.';
         }else{
 
-            $querty = "UPDATE pedidos SET clavetransaccion='$dataorden->clavetransaccion', idusuario=$dataorden->idusuario, correo='$dataorden->correo', total=$dataorden->total, fecha='$dataorden->fecha', fechaentrega='$dataorden->fechaentrega', descripcion='$dataorden->descripcion', direccion='$dataorden->direccion', status='$dataorden->status' WHERE idpedidos=$dataorden->idpedidos";
+            $querty = "UPDATE pedidos SET idusuario=$dataorden->idusuario, correo='$dataorden->correo', total=$dataorden->total, fecha='$dataorden->fecha', fechaentrega='$dataorden->fechaentrega', descripcion='$dataorden->descripcion', direccion='$dataorden->direccion', status='$dataorden->status' WHERE idpedidos=$dataorden->idpedidos";
 
             $conexion->consulta($querty);
 

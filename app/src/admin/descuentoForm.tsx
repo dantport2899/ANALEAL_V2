@@ -132,7 +132,6 @@ export const DescuentoForms = () => {
                   <button
                     type="reset"
                     className="btn-danger btn"
-                    value={descuento.descuento}
                     id="modificarFecha"
                     onClick={() => navigate("/admin/descuentos")}
                   >

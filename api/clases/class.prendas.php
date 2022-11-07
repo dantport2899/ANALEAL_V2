@@ -121,6 +121,9 @@ class Prendas
             $conexion->consulta($querty);
 
             $response['message'] = 'Prenda modificada con éxito';
+           
+            // $imagen = $dataprenda->img_data;
+            // $response['message'] = $imagen;
         }
 
         return $response;

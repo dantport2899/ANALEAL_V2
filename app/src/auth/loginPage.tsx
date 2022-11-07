@@ -29,8 +29,13 @@ export const LoginPage = () => {
                 var carrito = [];
 
                 sessionStorage.setItem('user',res.data.user.correo,);
+                sessionStorage.setItem('idusuario',res.data.user.idusuario,);
                 sessionStorage.setItem('user_types_id',res.data.user.idrol,);
-                sessionStorage.setItem('id',res.data.user.idusuario,);
+                sessionStorage.setItem('nom_usuario',res.data.user.nom_usuario,);
+                sessionStorage.setItem('username',res.data.user.username,);
+                sessionStorage.setItem('contrasena',res.data.user.contrasena,);
+                sessionStorage.setItem('direccion',res.data.user.direccion,);
+                sessionStorage.setItem('telefono',res.data.user.telefono,);
 
                 if(res.data.user.idrol==="1"){
                     alert("Bienvenido "+res.data.user.username);

@@ -1,9 +1,59 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NavbarAdmin } from "../componentes/navbarAdmin";
 
 import "./../styles/estilos.css";
+import { Pedido, Pedidos } from '../interfaces/Pedidos';
+import { useForm } from "react-hook-form";
+import { reqqResapi } from "../api/reqRes";
 
 export const PedidosForm = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
+
+  let pedido: Pedido = {
+    idpedidos: "",
+    clavetransaccion: "",
+    idusuario: "",
+    correo: "",
+    total: "",
+    fecha: "",
+    paypaldatos: "",
+    fechaentrega: "",
+    descripcion: "",
+    direccion: "",
+    status: ""
+  };
+
+  if (state) {
+    pedido = state.pedido;
+  }
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data: any) => {
+    
+    let action = "modifyorden";
+    
+    const Jsonsend = {
+      action: action,
+      data: data,
+    };
+    savePedido(Jsonsend);
+  };
+
+  const savePedido = async (Jsonsend: any) => {
+    //llamado al api promesa y se le asigna la interfaz
+    const resp = await reqqResapi.post<Pedidos>("", Jsonsend).then((res) => {
+      if (res.data.error) {
+        alert(res.data.message);
+      } else {
+        navigate("/admin/pedidos");
+      }
+    });
+  };
+
   return (
     <div>
       <script>
@@ -20,22 +70,11 @@ export const PedidosForm = () => {
         <body>
           {/* div titulo */}
           <div className="badge page-header">
-            <h1 style={{ textAlign: "center" }}>Modificar Pedido</h1>
+            <h1 style={{ textAlign: "center" }}>Modificar Pedido ID: "{pedido.idpedidos}"</h1>
           </div>
           <div className="divFormModificar">
             <div className="rendered-form">
-              <div className="formbuilder-text form-group field-fechasoli">
-                <label htmlFor="fechasoli" className="formbuilder-text-label">
-                  Fecha de solicitud
-                </label>
-                <input
-                  type="text"
-                  placeholder="Fecha"
-                  className="form-control"
-                  name="fechasoli"
-                  id="fechasoli"
-                />
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
               <div className="formbuilder-date form-group field-fechaEntrega">
                 <label
                   htmlFor="fechaEntrega"
@@ -44,9 +83,30 @@ export const PedidosForm = () => {
                   Fecha de entrega
                 </label>
                 <input
+                  type="hidden"
+                  {...register("idpedidos")}
+                  defaultValue={pedido.idpedidos}
+                />
+                <input
+                  type="hidden"
+                  {...register("idusuario")}
+                  defaultValue={pedido.idusuario}
+                />
+                <input
+                  type="hidden"
+                  {...register("fecha")}
+                  defaultValue={pedido.fecha}
+                />
+                <input
+                  type="hidden"
+                  {...register("correo")}
+                  defaultValue={pedido.correo}
+                />
+                <input
                   type="date"
                   className="form-control"
-                  name="fechaEntrega"
+                  {...register("fechaentrega")}
+                  defaultValue={pedido.fechaentrega}
                   id="fechaEntrega"
                 />
               </div>
@@ -57,10 +117,21 @@ export const PedidosForm = () => {
                 <input
                   type="text"
                   className="form-control"
-                  name="desc"
-                  disabled
-                  value="Descripci&oacute;n"
+                  {...register("descripcion")}
+                  defaultValue={pedido.descripcion}
                   id="desc"
+                />
+              </div>
+              <div className="formbuilder-text form-group field-desc">
+                <label htmlFor="desc" className="formbuilder-text-label">
+                Direccion
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  {...register("direccion")}
+                  defaultValue={pedido.direccion}
+                  id="direccion"
                 />
               </div>
               <div className="formbuilder-number form-group field-total">
@@ -70,9 +141,8 @@ export const PedidosForm = () => {
                 <input
                   type="number"
                   className="form-control"
-                  name="total"
-                  disabled
-                  value="3000"
+                  {...register("total")}
+                  defaultValue={pedido.total}
                   id="total"
                 />
               </div>
@@ -82,7 +152,7 @@ export const PedidosForm = () => {
                 </label>
                 <select
                   className="form-control"
-                  name="estatus"
+                  {...register("status")}
                   id="estatus"
                   required
                   aria-required="true"
@@ -90,19 +160,19 @@ export const PedidosForm = () => {
                   <option disabled selected={false}>
                     Seleccione una opci&oacute;n
                   </option>
-                  <option value="cancelado" id="estatus-0">
+                  <option value="Cancelado" id="estatus-0" selected={pedido.status=="Cancelado"}>
                     Cancelado
                   </option>
-                  <option value="pendiente" id="estatus-1">
+                  <option value="Pendiente" id="estatus-1" selected={pedido.status=="Pendiente"}>
                     Pendiente
                   </option>
-                  <option value="aprobado" id="estatus-2">
+                  <option value="Aprovado" id="estatus-2" selected={pedido.status=="Aprovado"}>
                     Aprobado
                   </option>
-                  <option value="transito" id="estatus-3">
+                  <option value="En transito" id="estatus-3" selected={pedido.status=="En transito"}>
                     En transito
                   </option>
-                  <option value="entregado" id="estatus-4">
+                  <option value="Entregado" id="estatus-4" selected={pedido.status=="Entregado"}>
                     Entregado
                   </option>
                 </select>
@@ -114,7 +184,7 @@ export const PedidosForm = () => {
                 <button
                   type="reset"
                   className="btn-danger btn"
-                  name="modificarFecha"
+                  onClick={() => navigate("/admin/pedidos")}
                   id="modificarFecha"
                 >
                   Cancelar
@@ -122,14 +192,14 @@ export const PedidosForm = () => {
                 &nbsp;
                 &nbsp;
                 <button
-                  type="reset"
+                  type="submit"
                   className="btn-success btn"
-                  name="modificarFecha"
                   id="modificarFecha"
                 >
                   Modificar
                 </button>
               </div>
+              </form>
             </div>
           </div>
         </body>

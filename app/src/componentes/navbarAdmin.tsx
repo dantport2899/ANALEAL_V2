@@ -41,7 +41,7 @@ export const NavbarAdmin = () => {
                         </ul>
                         <ul className="navbar-nav ml-auto mb-2 mb-md-0">
                             <li className="nav-item px-2">
-                                <a className="nav-link" href="usuarioadmin.php" style={{textTransform:"uppercase"}}>Usuario</a>
+                                <a className={`nav-link ${location.pathname == '/config' ? 'active' : ''}`} onClick={()=>navigate('/config')} style={{textTransform:"uppercase"}}>Usuario</a>
                             </li>
                             <li className="nav-item px-2">
                                 <a className="nav-link" style={{textTransform:"uppercase"}} onClick={()=>cerrarsesion()}>Cerrar Sesion</a>

@@ -1,14 +1,102 @@
 import React from "react";
 import { NavbarAdmin } from "../componentes/navbarAdmin";
-import { Navigation, Route } from 'react-router-dom';
+import { Navigation, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import "./../styles/estilos.css";
+import { Prenda, Prendas } from '../interfaces/Inventario';
+import { useForm } from "react-hook-form";
+import { reqqResapi } from "../api/reqRes";
+import { useInventario } from "../hooks/useInventario";
+import { Tallas } from '../interfaces/Tallas';
 
 interface Props {
   idprenda?: number;
 }
 
 export const PrendaForm = () => {
+  const navigate = useNavigate();
+  const {
+    DescuentoList,
+    TallaList,
+    EstiloList,
+    MaterialList
+
+  } = useInventario();
+
+  const { state } = useLocation();
+  let prenda: Prenda = {
+        idprenda:"",
+        nom_prenda:"",
+        idtalla:"",
+        precio:"",
+        iddepartamento:"",
+        color:"",
+        idmaterial:"",
+        idestilo:"",
+        img_nombre:"",
+        img_archivo:"",
+        descripcion:"",
+        existencias:"",
+        iddescuento:""
+  };
+  
+  if(state){
+    prenda = {
+      idprenda:"",
+      nom_prenda:"",
+      idtalla:prenda.idtalla,
+      precio:"",
+      iddepartamento:"",
+      color:"",
+      idmaterial:"",
+      idestilo:"",
+      img_nombre:"",
+      img_archivo:"",
+      descripcion:"",
+      existencias:"",
+      iddescuento:""
+  };
+  }
+  
+
+  if (state) {
+    prenda = state.prenda;
+    console.log(prenda);
+  }
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data: any) => {
+    let action = "";
+    if (state) {
+      action = "modifyprenda";
+    } else {
+      action = "newprenda";
+    }
+
+    // data.img_data = data.img_nombre[0];
+    data.img_nombre = data.img_nombre[0].name;
+    data.img_archivo = "../src/prendas/"+data.img_nombre+"/"+data.img_nombre;
+
+    const Jsonsend = {
+      action: action,
+      data: data,
+    };
+    console.log(Jsonsend);
+    savePrenda(Jsonsend);
+  };
+
+  const savePrenda = async (Jsonsend: any) => {
+    //llamado al api promesa y se le asigna la interfaz
+    const resp = await reqqResapi.post<Prendas>("", Jsonsend).then((res) => {
+      if (res.data.error) {
+        alert(res.data.message);
+      } else {
+        navigate("/admin/inventario");
+        // console.log(res.data.message)
+      }
+    });
+  };
 
 
   return (
@@ -31,16 +119,32 @@ export const PrendaForm = () => {
           </div>
 
           <div className="divFormModificar">
-            <form>
+            <form  onSubmit={handleSubmit(onSubmit)}>
               <div className="rendered-form">
                 <div className="formbuilder-text form-group field-nombre">
                   <label htmlFor="nombre" className="formbuilder-text-label">
                     Nombre
                   </label>
+                  {
+                    (state)
+                    ?
+                    (<input
+                      type="hidden"
+                      className="form-control"
+                      {...register("idprenda")}
+                      defaultValue={prenda.idprenda}
+                      id="nombre"
+                      required
+                      aria-required="true"
+                    />)
+                    :(<></>)
+
+                  }
                   <input
                     type="text"
                     className="form-control"
-                    name="nombre"
+                    {...register("nom_prenda")}
+                    defaultValue={prenda.nom_prenda}
                     id="nombre"
                     required
                     aria-required="true"
@@ -53,7 +157,8 @@ export const PrendaForm = () => {
                   <input
                     type="text"
                     className="form-control"
-                    name="desc"
+                    {...register("descripcion")}
+                    defaultValue={prenda.descripcion}
                     id="desc"
                     required
                     aria-required="true"
@@ -66,9 +171,9 @@ export const PrendaForm = () => {
                   <input
                     type="file"
                     className="form-control"
-                    name="img"
+                    {...register("img_nombre")}
                     id="img"
-                    required={true}
+                    required={false}
                     aria-required="true"
                   />
                 </div>
@@ -78,7 +183,7 @@ export const PrendaForm = () => {
                   </label>
                   <select
                     className="form-control"
-                    name="dpto"
+                    {...register("iddepartamento")}
                     id="dpto"
                     required={true}
                     aria-required="true"
@@ -86,11 +191,11 @@ export const PrendaForm = () => {
                     <option disabled={true} selected={true}>
                       Seleccione una opci&oacute;n
                     </option>
-                    <option value="option-1" id="dpto-0">
-                      Option 1
+                    <option value={1} id="dpto-0" selected={prenda.iddepartamento=="1"}>
+                      Ropa Boda
                     </option>
-                    <option value="option-3" id="dpto-1">
-                      Option 3
+                    <option value={2} id="dpto-1" selected={prenda.iddepartamento=="2"}>
+                      Ropa de ocasion
                     </option>
                   </select>
                 </div>
@@ -100,23 +205,17 @@ export const PrendaForm = () => {
                   </label>
                   <select
                     className="form-control"
-                    name="talla"
+                    {...register("idtalla")}
+                    defaultValue={prenda.idtalla}
                     id="talla"
                     required={true}
                     aria-required="true"
                   >
-                    <option disabled={true} selected={true}>
-                      Seleccione una opci&oacute;n
-                    </option>
-                    <option value="grande" id="talla-0">
-                      Grande
-                    </option>
-                    <option value="mediana" id="talla-1">
-                      Mediana
-                    </option>
-                    <option value="chica" id="talla-2">
-                      Chica
-                    </option>
+                    {
+                      TallaList?.tallas.map((talla: any) => (
+                        <option key={talla.idtalla} value={talla.idtalla} selected={(prenda.idtalla===talla.idtalla) ? true : false}>{talla.nom_talla}</option>
+                    ))
+                    }
                   </select>
                 </div>
                 <div className="formbuilder-text form-group field-color">
@@ -126,7 +225,8 @@ export const PrendaForm = () => {
                   <input
                     type="text"
                     className="form-control"
-                    name="color"
+                    {...register("color")}
+                    defaultValue={prenda.color}
                     id="color"
                     required={true}
                     aria-required="true"
@@ -138,20 +238,16 @@ export const PrendaForm = () => {
                   </label>
                   <select
                     className="form-control"
-                    name="estilo"
+                    {...register("idestilo")}
                     id="estilo"
                     required={true}
                     aria-required="true"
                   >
-                    <option disabled={true} selected={true}>
-                      Seleccione una opci&oacute;n
-                    </option>
-                    <option value="option-1" id="estilo-0">
-                      Option 1
-                    </option>
-                    <option value="option-3" id="estilo-1">
-                      Option 3
-                    </option>
+                    {
+                      EstiloList?.estilos.map((estilo: any) => (
+                        <option key={estilo.idestilo} value={estilo.idestilo} selected={(prenda.idestilo===estilo.idestilo) ? true : false}>{estilo.nom_estilo}</option>
+                    ))
+                    }
                   </select>
                 </div>
                 <div className="formbuilder-select form-group field-material">
@@ -163,20 +259,16 @@ export const PrendaForm = () => {
                   </label>
                   <select
                     className="form-control"
-                    name="material"
+                    {...register("idmaterial")}
                     id="material"
                     required={true}
                     aria-required="true"
                   >
-                    <option disabled={true} selected={true}>
-                      Seleccione una opci&oacute;n
-                    </option>
-                    <option value="option-1" id="material-0">
-                      Option 1
-                    </option>
-                    <option value="option-2" id="material-1">
-                      Option 2
-                    </option>
+                    {
+                      MaterialList?.materiales.map((material: any) => (
+                        <option key={material.idmaterial} value={material.idmaterial} selected={(prenda.idmaterial===material.idmaterial) ? true : false}>{material.nom_material}</option>
+                    ))
+                    }
                   </select>
                 </div>
                 <div className="formbuilder-select form-group field-descuento">
@@ -188,20 +280,16 @@ export const PrendaForm = () => {
                   </label>
                   <select
                     className="form-control"
-                    name="descuento"
+                    {...register("iddescuento")}
                     id="descuento"
                     required={true}
                     aria-required="true"
                   >
-                    <option disabled={true} selected={true}>
-                      Seleccione una opci&oacute;n
-                    </option>
-                    <option value="option-1" id="descuento-0">
-                      Option 1
-                    </option>
-                    <option value="option-3" id="descuento-1">
-                      Option 3
-                    </option>
+                    {
+                      DescuentoList?.descuentos.map((descuento: any) => (
+                        <option key={descuento.iddescuento} value={descuento.iddescuento} selected={(prenda.iddescuento===descuento.iddescuento) ? true : false}>{descuento.nom_descuento}</option>
+                    ))
+                    }
                   </select>
                 </div>
                 <div className="formbuilder-number form-group field-existencias">
@@ -214,7 +302,8 @@ export const PrendaForm = () => {
                   <input
                     type="number"
                     className="form-control"
-                    name="existencias"
+                    {...register("existencias")}
+                    defaultValue={prenda.existencias}
                     min="0"
                     max="10000"
                     step="0"
@@ -230,7 +319,8 @@ export const PrendaForm = () => {
                   <input
                     type="number"
                     className="form-control"
-                    name="precio"
+                    {...register("precio")}
+                    defaultValue={prenda.precio}
                     min="0"
                     id="precio"
                     required={true}
@@ -244,7 +334,7 @@ export const PrendaForm = () => {
                   id="div-guardar"
                 >
                   <button
-                  type="reset"
+                  onClick={()=>navigate("/admin/inventario")}
                   className="btn-danger btn"
                   name="modificarFecha"
                   id="modificarFecha"

@@ -30,6 +30,7 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.descuentos.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.ordenes.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.tallas.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.estilo.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.material.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
@@ -40,6 +41,7 @@ $ordenes = new Ordenes();
 $descuentos = new Descuentos();
 $tallas = new Tallas();
 $estilos = new Estilo();
+$materiales = new Material();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -154,6 +156,10 @@ switch ($data->action) {
 
     case 'getstilos':
         $response = $estilos -> getEstilos($data);
+        break;
+    
+    case 'getmateriales':
+        $response = $materiales -> getMaterial($data);
         break;
 
     default:

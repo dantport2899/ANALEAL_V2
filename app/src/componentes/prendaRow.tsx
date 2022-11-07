@@ -5,6 +5,8 @@ import { Descuentos, Descuento } from '../interfaces/Descuentos';
 import { Tallas, Talla } from '../interfaces/Tallas';
 import { Estilos, Estilo } from '../interfaces/Estilos';
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { PrendaDeleteModal } from './prendaDeleteModal';
 
 
 interface Props {
@@ -19,6 +21,8 @@ interface Props {
 export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }: Props) => {
 
     let Prendas:Prenda = prenda;  
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
     const navigate = useNavigate();
     
     // //mostrar Descuento
@@ -55,7 +59,11 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
         <ul className="list-inline mb-0">
           <li className="list-inline-item">
             <a
-              onClick={()=>navigate('/admin/inventario/form')}
+              onClick={() =>
+                navigate("/admin/inventario/form", {
+                  state: { prenda: Prendas },
+                })
+              }
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Edit"
@@ -66,7 +74,7 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
           </li>
           <li className="list-inline-item">
             <a
-              href="javascript:void(0);"
+              onClick={() => setIsOpenDelete(true)}
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Delete"
@@ -93,6 +101,14 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
       <td>{Estilo}</td>
       <td>{Descuento}</td>
       <td>{Prendas.descripcion}</td>
+      {isOpenDelete && (
+        <PrendaDeleteModal
+          setIsOpen={setIsOpenDelete}
+          document={Prendas}
+          update={update}
+          setUpdate={setUpdate}
+        />
+      )}
     </tr>
   );
 };

@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Descuento } from "../interfaces/Descuentos";
 import { Pedido } from "../interfaces/Pedidos";
+import { useState } from 'react';
+import { PedidosDeleteModal } from "./pedidosDeleteModal";
 
 interface Props {
   pedido: any;
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export const PedidosRow = ({ pedido, update, setUpdate }: Props) => {
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
   let Pedido: Pedido = pedido;
   const navigate = useNavigate();
 
@@ -21,7 +25,8 @@ export const PedidosRow = ({ pedido, update, setUpdate }: Props) => {
         <ul className="list-inline mb-0">
           <li className="list-inline-item">
             <a
-              onClick={() => navigate("/admin/pedidos/form")}
+              onClick={() => navigate("/admin/pedidos/form", {
+                state: { pedido: Pedido }})}
               
               data-bs-toggle="tooltip"
               data-bs-placement="top"
@@ -33,7 +38,7 @@ export const PedidosRow = ({ pedido, update, setUpdate }: Props) => {
           </li>
           <li className="list-inline-item">
             <a
-              href="javascript:void(0);"
+              onClick={() => setIsOpenDelete(true)}
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Delete"
@@ -52,7 +57,15 @@ export const PedidosRow = ({ pedido, update, setUpdate }: Props) => {
       <td>{Pedido.fechaentrega}</td>
       <td>${Pedido.total}</td>
       <td>{Pedido.clavetransaccion}</td>
-
+      {isOpenDelete && (
+        <PedidosDeleteModal
+          setIsOpen={setIsOpenDelete}
+          document={Pedido}
+          update={update}
+          setUpdate={setUpdate}
+        />
+      )}
     </tr>
+    
   );
 };
