@@ -30,4 +30,30 @@
     
   }
 
+  .container-verprenda{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .verprenda-form{
+    width: 50%;
+  }
+
+  .container-imgverprenda{
+    margin-top: 15%;
+    margin-left: 25%;
+  }
+
+  .textoCentrado{
+    text-align: center;
+}
+
+.paypalbtn{
+  height: 250px;
+  width: auto;
+  margin: 0px auto;
+  
+  
+}
 

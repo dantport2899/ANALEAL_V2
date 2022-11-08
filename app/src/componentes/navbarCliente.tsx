@@ -25,16 +25,16 @@ export const NavbarCliente = () => {
                             </li>
                         
                             <li className="nav-item px-4">
-                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;boda</a>
+                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;boda</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;ocasión</a>
+                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;ocasión</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Ropa&nbsp;en&nbsp;oferta</a>
+                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;en&nbsp;oferta</a>
                             </li>
                             <li className="nav-item px-4">
-                                <a className="nav-link"  style={{textTransform:"uppercase"}}>Contáctanos</a>
+                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Contáctanos</a>
                             </li>
                         </ul>
 
