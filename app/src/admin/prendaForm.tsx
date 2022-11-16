@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { reqqResapi } from "../api/reqRes";
 import { useInventario } from "../hooks/useInventario";
 import { Tallas } from '../interfaces/Tallas';
+import { useState } from 'react';
 
 interface Props {
   idprenda?: number;
@@ -73,17 +74,30 @@ export const PrendaForm = () => {
     } else {
       action = "newprenda";
     }
+    
+    var reader = new FileReader();
+    let base64:string | ArrayBuffer | null = "";
+    reader.readAsDataURL(data.img_nombre[0]);
 
-    // data.img_data = data.img_nombre[0];
-    data.img_nombre = data.img_nombre[0].name;
-    data.img_archivo = "../src/prendas/"+data.img_nombre+"/"+data.img_nombre;
+    reader.onload = function () {
+      base64 = reader.result;
+      // console.log(base64);
+      data.img_data = base64;
+      data.img_nombre = data.img_nombre[0].name;
+      data.img_archivo = "../src/prendas/"+data.img_nombre;
+  
+      const Jsonsend = {
+        action: action,
+        data: data,
+      };
+      // console.log(Jsonsend);
+      savePrenda(Jsonsend);
 
-    const Jsonsend = {
-      action: action,
-      data: data,
     };
-    console.log(Jsonsend);
-    savePrenda(Jsonsend);
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+   
   };
 
   const savePrenda = async (Jsonsend: any) => {
@@ -93,10 +107,27 @@ export const PrendaForm = () => {
         alert(res.data.message);
       } else {
         navigate("/admin/inventario");
-        // console.log(res.data.message)
+        // console.log(res.data.message);
       }
     });
   };
+
+
+  const convert2base64 = (file:any) => {
+    var reader = new FileReader();
+    let base64:string | ArrayBuffer | null = "";
+   reader.readAsDataURL(file);
+   reader.onload = function () {
+    //  console.log(reader.result);
+     base64 = reader.result;
+   };
+   reader.onerror = function (error) {
+     console.log('Error: ', error);
+   };
+   console.log(base64);
+
+   return base64;
+  }
 
 
   return (
@@ -188,9 +219,7 @@ export const PrendaForm = () => {
                     required={true}
                     aria-required="true"
                   >
-                    <option disabled={true} selected={true}>
-                      Seleccione una opci&oacute;n
-                    </option>
+                  
                     <option value={1} id="dpto-0" selected={prenda.iddepartamento=="1"}>
                       Ropa Boda
                     </option>
@@ -206,14 +235,24 @@ export const PrendaForm = () => {
                   <select
                     className="form-control"
                     {...register("idtalla")}
-                    defaultValue={prenda.idtalla}
                     id="talla"
                     required={true}
                     aria-required="true"
                   >
                     {
-                      TallaList?.tallas.map((talla: any) => (
-                        <option key={talla.idtalla} value={talla.idtalla} selected={(prenda.idtalla===talla.idtalla) ? true : false}>{talla.nom_talla}</option>
+                      TallaList?.tallas.map((talla: any) => 
+                      (
+                        
+                        <>
+                        {
+                          (prenda.idtalla==talla.idtalla)
+                          ?
+                          (<option key={talla.idtalla} value={talla.idtalla} selected={prenda.idtalla==talla.idtalla}>{talla.nom_talla}</option>)
+                          
+                          :
+                          (<option key={talla.idtalla} value={talla.idtalla}>{talla.nom_talla}</option>)
+                        }
+                        </>
                     ))
                     }
                   </select>

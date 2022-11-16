@@ -26,7 +26,7 @@ export const LoginPage = () => {
         const resp = await reqqResapi.post<User>('',Jsonsend).then(res => {
 
             if(res.data.user){
-                var carrito = [];
+                var carrito = new Array();
 
                 sessionStorage.setItem('user',res.data.user.correo,);
                 sessionStorage.setItem('idusuario',res.data.user.idusuario,);
@@ -36,6 +36,7 @@ export const LoginPage = () => {
                 sessionStorage.setItem('contrasena',res.data.user.contrasena,);
                 sessionStorage.setItem('direccion',res.data.user.direccion,);
                 sessionStorage.setItem('telefono',res.data.user.telefono,);
+                sessionStorage.setItem('carrito',JSON.stringify(carrito));
 
                 if(res.data.user.idrol==="1"){
                     alert("Bienvenido "+res.data.user.username);

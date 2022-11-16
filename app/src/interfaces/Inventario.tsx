@@ -22,4 +22,5 @@ export interface Prenda {
 
 export interface Totalprendas {
     Totalprendas: string;
+    Consulta: string;
 }

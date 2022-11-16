@@ -56,9 +56,9 @@ export const ReporteRow = ({ reporte, update, setUpdate }: Props) => {
         <td>{Reporte.idprenda}</td>
         <td>{
           (Reporte.accion=="1")?
-          "Salidas"          
+          "Entradas"          
           :
-          "Entradas"
+          "Salidas"
           }</td>
         <td>{Reporte.cantidad}</td>
         <td>{Reporte.fecha}</td>

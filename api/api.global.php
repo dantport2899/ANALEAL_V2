@@ -32,6 +32,7 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.tallas.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.estilo.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.material.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.reportes.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.galeria.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
@@ -44,6 +45,7 @@ $tallas = new Tallas();
 $estilos = new Estilo();
 $materiales = new Material();
 $reportes = new Reportes();
+$galeria = new Galeria();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -178,6 +180,14 @@ switch ($data->action) {
     
     case 'getreportes':
         $response = $reportes -> getReportes($data);
+        break;
+    
+    case 'gettotalgaleria':
+        $response = $galeria -> totalPrendasGaleria($data);
+        break;
+
+    case 'getgaleria':
+        $response = $galeria -> getPrendas($data);
         break;
 
     default:

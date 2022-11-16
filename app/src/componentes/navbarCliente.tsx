@@ -1,15 +1,27 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const NavbarCliente = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const cerrarsesion = () => {
         sessionStorage.clear();
         navigate('/home');
         window.location.reload();
     }
+
+    var carritoactual = JSON.parse(sessionStorage.getItem("carrito") || '{}');
+    var carritocant = carritoactual.length;
+
+    const limpiar = () =>{
+        var carrito = new Array();
+        sessionStorage.setItem('carrito',JSON.stringify(carrito));
+        window.location.reload();
+        
+    }
+
   return (
     <header>  
             <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -21,21 +33,13 @@ export const NavbarCliente = () => {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav mx-auto mb-2 mb-md-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" style={{textTransform:"uppercase"}} onClick={()=>navigate('/home')}>Inicio</a>
+                                <a className={`nav-link ${location.pathname == '/home' ? 'active' : ''}`} aria-current="page" style={{textTransform:"uppercase"}} onClick={()=>navigate('/home')}>Inicio</a>
                             </li>
                         
                             <li className="nav-item px-4">
-                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;boda</a>
+                                <a className={`nav-link ${location.pathname == '/user/galeria' ? 'active' : ''}`}  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Galeria</a>
                             </li>
-                            <li className="nav-item px-4">
-                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;de&nbsp;ocasión</a>
-                            </li>
-                            <li className="nav-item px-4">
-                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Ropa&nbsp;en&nbsp;oferta</a>
-                            </li>
-                            <li className="nav-item px-4">
-                                <a className="nav-link"  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Contáctanos</a>
-                            </li>
+                           
                         </ul>
 
                         {
@@ -45,12 +49,12 @@ export const NavbarCliente = () => {
                             <>
                             <ul className="navbar-nav ml-auto mb-2 mb-md-0">
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" style={{textTransform:"uppercase"}} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Carrito[0]
+                                    <a className={`nav-link dropdown-toggle ${location.pathname == '/user/carrito' ? 'active' : ''}`} style={{textTransform:"uppercase"}} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Carrito[{carritocant}]
                                     </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item"  onClick={()=>navigate('/user/carrito')} >Ver Carrito</a></li>
-                                            <li><a className="dropdown-item" >Limpiar carrito</a></li>
+                                            <li><a className="dropdown-item" onClick={()=>limpiar()}>Limpiar carrito</a></li>
                                         </ul>
                                 </li>
                             </ul>

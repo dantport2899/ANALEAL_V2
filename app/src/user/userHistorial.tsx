@@ -70,7 +70,7 @@ export const UserHistorial = () => {
                           <tr>
                             <td>
                               <img
-                                src={require("../src/prendas/amarillo.jpg/amarillo.jpg")}
+                                src={require("../src/prendas/corteafuera.jpeg")}
                                 alt=""
                                 className="avatar-sm rounded-circle me-2"
                               />
@@ -103,7 +103,7 @@ export const UserHistorial = () => {
                           <tr>
                             <td>
                               <img
-                                src={require("../src/prendas/amarillo.jpg/amarillo.jpg")}
+                                src={require("../src/prendas/corteafuera.jpeg")}
                                 alt=""
                                 className="avatar-sm rounded-circle me-2"
                               />
@@ -136,7 +136,7 @@ export const UserHistorial = () => {
                           <tr>
                             <td>
                               <img
-                                src={require("../src/prendas/amarillo.jpg/amarillo.jpg")}
+                                src={require("../src/prendas/corteafuera.jpeg")}
                                 alt=""
                                 className="avatar-sm rounded-circle me-2"
                               />

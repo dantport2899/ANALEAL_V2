@@ -27,8 +27,30 @@ class Prendas
             $response['message'] = 'Existencias vacías.';
         }else{
 
+            $imagen = $dataprenda->img_data;
+
             $sql = "Insert into prendas (nom_prenda,descripcion,img_nombre,img_archivo,iddepartamento,idtalla,existencias,color,idestilo,idmaterial,iddescuento,precio) values ('$dataprenda->nom_prenda','$dataprenda->descripcion','$dataprenda->img_nombre','$dataprenda->img_archivo',$dataprenda->iddepartamento,$dataprenda->idtalla,$dataprenda->existencias,'$dataprenda->color',$dataprenda->idestilo,$dataprenda->idmaterial,$dataprenda->iddescuento,$dataprenda->precio)";
             $result = $conexion->consulta($sql);
+
+            if (preg_match('/^data:image\/(\w+);base64,/', $imagen, $type)) {
+                $imagen = substr($imagen, strpos($imagen, ',') + 1);
+                $type = strtolower($type[1]); // jpg, png, gif
+            
+                if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                    throw new \Exception('invalid image type');
+                }
+                $imagen = str_replace( ' ', '+', $imagen );
+                $imagen = base64_decode($imagen);
+            
+                if ($imagen === false) {
+                    throw new \Exception('base64_decode failed');
+                }
+            } else {
+                throw new \Exception('did not match data URI with image data');
+            }
+            
+            // file_put_contents("../../../app/src/src/prendas/{$dataprenda->nom_prenda}/{$dataprenda->nom_prenda}.{$type}", $imagen);
+            file_put_contents("./../app/src/src/prendas/{$dataprenda->img_nombre}", $imagen);
 
 
             $response['message'] = "Usuario agregado con exito";
@@ -115,15 +137,40 @@ class Prendas
             $response['error'] = true;
             $response['message'] = 'Existencias vacías.';
         }else{
+            $imagen = $dataprenda->img_data;
+            
+            if (empty($imagen)) {
+                $querty = "UPDATE prendas SET nom_prenda='$dataprenda->nom_prenda', idtalla='$dataprenda->idtalla', precio='$dataprenda->precio', iddepartamento='$dataprenda->iddepartamento', color='$dataprenda->color', idmaterial='$dataprenda->idmaterial', idestilo='$dataprenda->idestilo', descripcion='$dataprenda->descripcion', existencias='$dataprenda->existencias', iddescuento='$dataprenda->iddescuento' WHERE idprenda='$dataprenda->idprenda'";
 
-            $querty = "UPDATE prendas SET nom_prenda='$dataprenda->nom_prenda', idtalla='$dataprenda->idtalla', precio='$dataprenda->precio', iddepartamento='$dataprenda->iddepartamento', color='$dataprenda->color', idmaterial='$dataprenda->idmaterial', idestilo='$dataprenda->idestilo', descripcion='$dataprenda->descripcion', existencias='$dataprenda->existencias', iddescuento='$dataprenda->iddescuento' WHERE idprenda='$dataprenda->idprenda'";
+            }else{
+                $querty = "UPDATE prendas SET nom_prenda='$dataprenda->nom_prenda', img_nombre='$dataprenda->img_nombre', img_archivo='$dataprenda->img_archivo', idtalla='$dataprenda->idtalla', precio='$dataprenda->precio', iddepartamento='$dataprenda->iddepartamento', color='$dataprenda->color', idmaterial='$dataprenda->idmaterial', idestilo='$dataprenda->idestilo', descripcion='$dataprenda->descripcion', existencias='$dataprenda->existencias', iddescuento='$dataprenda->iddescuento' WHERE idprenda='$dataprenda->idprenda'";
+                
+                
+                if (preg_match('/^data:image\/(\w+);base64,/', $imagen, $type)) {
+                    $imagen = substr($imagen, strpos($imagen, ',') + 1);
+                    $type = strtolower($type[1]); // jpg, png, gif
+                
+                    if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                        throw new \Exception('invalid image type');
+                    }
+                    $imagen = str_replace( ' ', '+', $imagen );
+                    $imagen = base64_decode($imagen);
+                
+                    if ($imagen === false) {
+                        throw new \Exception('base64_decode failed');
+                    }
+                } else {
+                    throw new \Exception('did not match data URI with image data');
+                }
+                
+                // file_put_contents("../../../app/src/src/prendas/{$dataprenda->nom_prenda}/{$dataprenda->nom_prenda}.{$type}", $imagen);
+                file_put_contents("./../app/src/src/prendas/{$dataprenda->img_nombre}", $imagen);
+            }
 
             $conexion->consulta($querty);
 
             $response['message'] = 'Prenda modificada con éxito';
            
-            // $imagen = $dataprenda->img_data;
-            // $response['message'] = $imagen;
         }
 
         return $response;
@@ -159,6 +206,7 @@ class Prendas
         }
         return $response;
     }
+    
 }
 
 ?>

@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import React from "react";
+import React, { useEffect } from "react";
 import { Prenda, Prendas } from '../interfaces/Inventario';
 import { Descuentos, Descuento } from '../interfaces/Descuentos';
 import { Tallas, Talla } from '../interfaces/Tallas';
@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { PrendaDeleteModal } from './prendaDeleteModal';
 import { EntradaReporteModal } from './EntradaReporteModal';
-
 
 interface Props {
   prenda: any;
@@ -21,11 +20,13 @@ interface Props {
 
 export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }: Props) => {
 
+
     let Prendas:Prenda = prenda;  
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenEntradas, setIsOpenEntradas] = useState(false);
 
     const navigate = useNavigate();
+
     
     // //mostrar Descuento
     let Descuento:string = "Descuento";
@@ -100,11 +101,22 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
       </td>
       <td>{Prendas.idprenda}</td>
       <td>
-        <img
-          src={require("../src/prendas/amarillo.jpg/amarillo.jpg")}
-          style={{height:'40px'}}
-          className="avatar-sm rounded-circle me-2"
-        />
+        {
+          (Prendas.img_archivo)
+          ?
+          (<><img
+            src={require("../src/prendas/"+Prendas.img_nombre)}
+            style={{height:'40px'}}
+            className="avatar-sm rounded-circle me-2"
+          /></>)
+          :
+          (<><img
+            src={require("../src/prendas/corteafuera.jpeg")}
+            style={{height:'40px'}}
+            className="avatar-sm rounded-circle me-2"
+          /></>)
+        }
+        
       </td>
       <td>{Prendas.nom_prenda}</td>
       <td>{Talla}</td>
