@@ -42,9 +42,10 @@ export const UseGaleria = () => {
         getMaterialList();
     }, [pageno,DataSearch,update,orderby,asc,Peticion])
 
-    // useEffect(() => {
+    useEffect(() => {
+        getPrendaList(Number(Totalprendas));
         
-    // },[0])
+    },[Totalprendas,pageno,orderby,asc,Peticion])
         
     const getTotalPrendas = async() => {
 
@@ -52,7 +53,6 @@ export const UseGaleria = () => {
             setTotalPrendas(res.data.Totalprendas);
             setConsulta(res.data.Consulta);
             console.log(res.data.Consulta);       
-            getPrendaList(Number(res.data.Totalprendas));
         }); 
         
     }
