@@ -33,6 +33,8 @@ include_once(realpath(dirname(__FILE__)).'/clases/class.estilo.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.material.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.reportes.php');
 include_once(realpath(dirname(__FILE__)).'/clases/class.galeria.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.verificarcompra.php');
+include_once(realpath(dirname(__FILE__)).'/clases/class.carrito.php');
 
 $usuariosClass = new Usuarios();
 $accessUserClass = new AccessUser();
@@ -46,6 +48,8 @@ $estilos = new Estilo();
 $materiales = new Material();
 $reportes = new Reportes();
 $galeria = new Galeria();
+$verificar = new Verificar();
+$carrito = new Carrito();
 
 if(empty($data)){
     if(empty($_GET)){
@@ -113,6 +117,10 @@ switch ($data->action) {
     case 'deleteprenda':
         $response = $prendas -> deletePrenda($data);
         break;
+    
+    case 'getprenda':
+        $response = $prendas -> getPrenda($data);
+        break;
 
     case 'newdescuento':
         $response = $descuentos -> newDescuento($data);
@@ -148,6 +156,14 @@ switch ($data->action) {
 
     case 'modifyorden':
         $response = $ordenes -> modifyOrden($data);
+        break;
+
+    case 'gettotalordenesuser':
+        $response = $ordenes -> totalOrdenesUser($data);
+        break;
+    
+    case 'getordenesuser':
+        $response = $ordenes -> getOrdenesUser($data);
         break;
 
     case 'deleteorden':
@@ -188,6 +204,14 @@ switch ($data->action) {
 
     case 'getgaleria':
         $response = $galeria -> getPrendas($data);
+        break;
+    
+    case 'verificar':
+        $response = $verificar -> verificar($data);
+        break;
+    
+    case 'carrito':
+        $response = $carrito -> getCarrito($data);
         break;
 
     default:

@@ -156,6 +156,56 @@ class Ordenes
         }
         return $response;
     }
+
+    function totalOrdenesUser($data) {
+        
+        global  $conexion, $seguridad;      
+
+        $dataorden = $data->data;
+    
+        $response = array();
+        
+        $Totalpedidos = $conexion->consulta("SELECT COUNT(*) FROM `pedidos` WHERE idusuario=$dataorden->idusuario");
+
+        $response['Totalpedidos'] = reset($Totalpedidos[0]);
+        // $response['Totalpedidos'] = $Totalpedidos;
+        
+
+        return $response;
+    }
+
+    function getOrdenesUser($data) {
+        
+        global  $conexion, $seguridad;      
+    
+        $response = array();
+
+        $dataorden = $data->data;
+
+        if(isset($dataorden->inicio)){
+
+            if(!isset($dataorden->orderby)){
+                $response['code'] = 2;
+                $response['error'] = true;
+                $response['message'] = 'Se requiere de el tipo de orden';
+    
+            }else{
+                $inicio = $dataorden->inicio;
+                $limite = $dataorden->limite;
+    
+                $sql = "SELECT * FROM `pedidos` WHERE idusuario=$dataorden->idusuario ORDER BY ".$dataorden->orderby." ".$dataorden->order." LIMIT ".$inicio.",".$limite." ";
+                $pedidos = $conexion->consulta($sql);
+                $response['pedidos'] = $pedidos;
+            }
+        }else{
+            $sql = "SELECT * FROM `pedidos`";
+
+            $pedidos = $conexion->consulta($sql);
+            $response['pedidos'] = $pedidos;
+        }
+
+        return $response;
+    }
 }
 
 ?>

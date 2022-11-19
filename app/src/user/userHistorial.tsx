@@ -3,10 +3,41 @@ import { NavbarCliente } from '../componentes/navbarCliente'
 import "./../styles/newtable.css";
 import "./../styles/estilos.css";
 import { useNavigate } from 'react-router-dom';
+import { usePedidosUsuario } from '../hooks/usePedidosUsuario';
+import { Paginacion } from '../componentes/paginacion';
+import { PedidosRowUser } from '../componentes/pedidosRowUser';
 
 export const UserHistorial = () => {
+
+  const {
+    TotalPedidos,
+    pageno,
+    total_pages,
+    setpageno,
+    setDataSearch,
+    DataSearch,
+    Error,
+    setError,
+    update,
+    setupdate,
+    PedidoList,
+    setorderby,
+    asc,
+    setasc
+
+  } = usePedidosUsuario();
+
   const navigate = useNavigate();
 
+  const changueOrder = (col:string) => {
+    setorderby(col)
+
+    if (asc=="ASC") {
+      setasc("DESC");
+    }else{
+      setasc("ASC")
+    }
+  }
   return (
     <>
       <script>
@@ -34,14 +65,17 @@ export const UserHistorial = () => {
         
           {/* div tabla */}
           <div>
-            <div className="container">
+            {
+              (PedidoList)
+              ?(
+                <div className="container">
               <div className="row align-items-center">
                 <div className="col-md-6">
                   <div className="mb-3">
                     <h5 className="card-title">
                       Historial de pedidos{" "}
                       <span className="text-muted fw-normal ms-2">
-                        (# de pedidos realizados)
+                        (#{TotalPedidos} de pedidos realizados)
                       </span>
                     </h5>
                   </div>
@@ -55,117 +89,26 @@ export const UserHistorial = () => {
                       <table className="table project-list-table table-nowrap align-middle table-borderless">
                         <thead>
                           <tr>
-                            <th scope="col">Prenda</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Color</th>
-                            <th scope="col">Precio Total</th>
-                            <th scope="col">Fecha compra</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col" style={{ width: "200px" }}>
-                              Acciones
+                            <th scope="col">Ver carrito</th>
+                            <th scope="col"onClick={()=>changueOrder("idpedidos")}>Descripcion</th>
+                            <th scope="col"onClick={()=>changueOrder("total")}>Total</th>
+                            <th scope="col"onClick={()=>changueOrder("direccion")}>Direccion de entrega</th>
+                            <th scope="col"onClick={()=>changueOrder("fechaentrega")}>Fecha de entrega</th>
+                            <th scope="col"onClick={()=>changueOrder("status")}>Estatus</th>
+                            <th scope="col"onClick={()=>changueOrder("clavetransaccion")} style={{ width: "200px" }}>
+                              Clave transaccion
                             </th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>
-                              <img
-                                src={require("../src/prendas/corteafuera.jpeg")}
-                                alt=""
-                                className="avatar-sm rounded-circle me-2"
-                              />
-                            </td>
-                            <td>
-                              <a href="#" className="text-body">
-                                Corte a escote redondo
-                              </a>
-                            </td>
-                            <td>Verde</td>
-                            <td>$2000 Productos:4</td>
-                            <td>2021-11-21 00:00:00/ Entrega aprox: 2021-11-30</td>
-                            <td>En transito</td>
-                            <td>
-                              <ul className="list-inline mb-0">
-                                <li className="list-inline-item">
-                                  <a
-                                    href="javascript:void(0);"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title="Delete"
-                                    className="px-2 text-danger"
-                                  >
-                                    <i className="bx bx-trash-alt font-size-18"></i>
-                                  </a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img
-                                src={require("../src/prendas/corteafuera.jpeg")}
-                                alt=""
-                                className="avatar-sm rounded-circle me-2"
-                              />
-                            </td>
-                            <td>
-                              <a href="#" className="text-body">
-                                Corte afuera del hombro
-                              </a>
-                            </td>
-                            <td>Verde</td>
-                            <td>$2000 Productos:2</td>
-                            <td>2021-11-21 00:00:00</td>
-                            <td>Cancelado</td>
-                            <td>
-                              <ul className="list-inline mb-0">
-                                <li className="list-inline-item">
-                                  <a
-                                    href="javascript:void(0);"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title="Delete"
-                                    className="px-2 text-danger"
-                                  >
-                                    <i className="bx bx-trash-alt font-size-18"></i>
-                                  </a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img
-                                src={require("../src/prendas/corteafuera.jpeg")}
-                                alt=""
-                                className="avatar-sm rounded-circle me-2"
-                              />
-                            </td>
-                            <td>
-                              <a href="#" className="text-body">
-                                Corte a escote en v
-                              </a>
-                            </td>
-                            <td>Verde</td>
-                            <td>$1000 Productos:1</td>
-                            <td>2021-11-21 00:00:00</td>
-                            <td>Pendiente</td>
-                            <td>
-                              <ul className="list-inline mb-0">
-                                <li className="list-inline-item">
-                                  <a
-                                    href="javascript:void(0);"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-placement="top"
-                                    title="Delete"
-                                    className="px-2 text-danger"
-                                  >
-                                    <i className="bx bx-trash-alt font-size-18"></i>
-                                  </a>
-                                </li>
-                              </ul>
-                            </td>
-                          </tr>
+                        {PedidoList?.pedidos.map((pedido) => (
+                            <PedidosRowUser
+                              key={pedido.idpedidos}
+                              pedido={pedido}
+                              update={update}
+                              setUpdate={setupdate}
+                            />
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -176,34 +119,23 @@ export const UserHistorial = () => {
                 <div className="col-sm-6">
                   <div>
                     <p className="mb-sm-0">
-                      Mostrando 3 de 3 #pedidos en el historial
+                      Mostrando {PedidoList?.pedidos.length} de {TotalPedidos} #pedidos en el historial
                     </p>
                   </div>
                 </div>
                 <div className="col-sm-6">
-                  <div className="float-sm-end">
-                    <ul className="pagination mb-sm-0">
-                      <li className="page-item disabled">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-left"></i>
-                        </a>
-                      </li>
-                      <li className="page-item active">
-                        <a href="#" className="page-link">
-                          1
-                        </a>
-                      </li>
-                      
-                      <li className="page-item">
-                        <a href="#" className="page-link">
-                          <i className="mdi mdi-chevron-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <Paginacion pageno={pageno} totalpages={total_pages} setpageno={setpageno}/>
                 </div>
               </div>
             </div>
+              )
+              :(
+                <div className="alert alert-primary" role="alert" style={{width:'90%', margin:'0px auto', height:'400px'}}>
+                <h4>Lo sentimos, no hay productos cargados en el carrito</h4>
+                </div>
+              )
+            }
+            
           </div>
 
         </body>

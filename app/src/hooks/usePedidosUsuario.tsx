@@ -3,7 +3,7 @@ import { reqqResapi } from '../api/reqRes';
 import { useState } from 'react';
 import { Totalpedidos, Pedidos } from '../interfaces/Pedidos';
 
-export const usePedidos = () => {
+export const usePedidosUsuario = () => {
   
     const [TotalPedidos, setTotalPedidos] = useState<string>();
     const [PedidoList, setPedidoList] = useState<Pedidos>();
@@ -35,7 +35,10 @@ export const usePedidos = () => {
             }
         }else{
             Jsonsend = {
-                action: "gettotalordenes",
+                action: "gettotalordenesuser",
+                data: {
+                    idusuario:sessionStorage.getItem('idusuario')
+                }
             }
         }
       
@@ -53,8 +56,9 @@ export const usePedidos = () => {
         settotal_pages(Math.ceil(Totalpedidos/valoresporpagina));
 
         let getPedido = {
-            action: "getordenes",
+            action: "getordenesuser",
                 data:{
+                    idusuario:sessionStorage.getItem('idusuario'),
                     idrol: sessionStorage.user_types_id,
                     inicio:offset,
                     limite:valoresporpagina,

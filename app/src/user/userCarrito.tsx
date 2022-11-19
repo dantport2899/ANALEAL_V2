@@ -10,6 +10,7 @@ import { Descuentos, Descuento } from "../interfaces/Descuentos";
 import { Tallas } from "../interfaces/Tallas";
 import { Estilos } from "../interfaces/Estilos";
 import { reqqResapi } from "../api/reqRes";
+import { useForm } from "react-hook-form";
 
 export const UserCarrito = () => {
   const [DescuentoList, setDescuentoList] = useState<Descuentos>();
@@ -20,6 +21,7 @@ export const UserCarrito = () => {
   const navigate = useNavigate();
 
   var carrito = JSON.parse(sessionStorage.getItem("carrito") || "{}");
+  const { register, handleSubmit} = useForm();
 
   useEffect(() => {
     getDescuentoList();
@@ -109,6 +111,13 @@ export const UserCarrito = () => {
     });
     console.log(total);
     setTotal(total);
+  };
+
+  const onSubmit = (data: any) => {
+    data.total = Total;
+    // console.log(data);
+    navigate("/user/confirmar", {state:data});
+
   };
 
   return (
@@ -233,34 +242,37 @@ export const UserCarrito = () => {
             {/* div correo */}
           <div className="divFormModificar">
             <div className="rendered-form">
-              <div>
-                <label className="formbuilder-text-label">Correo</label>
-                <input type="text" className="form-control" />
-              </div>
-              <div className="formbuilder-text form-group field-descripcion">
-                <label htmlFor="descripcion" className="formbuilder-text-label">
-                  Direccion de entrega
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="descripcion"
-                  id="descripcion"
-                />
-              </div>
-              <div>
-                <a>Los productos se enviaran a esta direccion</a>
-              </div>
-              <div style={{ paddingTop: "15px" }}>
-                <button
-                  onClick={() => navigate("/user/confirmar")}
-                  type="reset"
-                  className="btn-success btn"
-                  name="modificarFecha"
-                >
-                  Proceder a pagar
-                </button>
-              </div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <label className="formbuilder-text-label">Correo</label>
+                  <input {...register("correo")} type="email" className="form-control" required/>
+                  <input {...register("cantidad")} type="hidden" className="form-control" defaultValue={carrito.length}/>
+                </div>
+                <div className="formbuilder-text form-group field-descripcion">
+                  <label htmlFor="descripcion" className="formbuilder-text-label">
+                    Direccion de entrega
+                  </label>
+                  <input
+                  {...register("direccion")}
+                    type="text"
+                    className="form-control"
+                    id="descripcion"
+                    required
+                  />
+                </div>
+                <div>
+                  <a>Los productos se enviaran a esta direccion</a>
+                </div>
+                <div style={{ paddingTop: "15px" }}>
+                  <button
+                    type="submit"
+                    className="btn-success btn"
+                    name="modificarFecha"
+                  >
+                    Proceder a pagar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
           </>

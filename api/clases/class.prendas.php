@@ -206,6 +206,28 @@ class Prendas
         }
         return $response;
     }
+
+    function getPrenda($data) {
+
+        global  $conexion, $seguridad;      
+    
+        $response = array();
+                
+        $datauser = $data->data;
+
+        if (empty($datauser->idprenda)) {
+            $response['code'] = 1;
+            $response['error'] = true;
+            $response['message'] = 'Id vacío.';
+        }else{
+            $prenda = $conexion->consulta("SELECT * FROM `prendas` WHERE `idprenda` = $datauser->idprenda");
+            
+            $response['prenda'] = $prenda[0];
+
+           
+        }
+        return $response;
+    }
     
 }
 
