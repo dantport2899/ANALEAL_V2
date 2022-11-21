@@ -59,7 +59,7 @@ export const Usergaleria = () => {
       <div className='galeria-lateral' style={{paddingLeft:"120px"}}>
         <form onSubmit={handleSubmit(onSubmit)}>
           
-        <h2>Categorias</h2>
+        <h2>Categorías</h2>
         <br />
         <div>
                       <input
@@ -165,15 +165,15 @@ export const Usergaleria = () => {
       </div>
       <div className="row">
           {
-            (PrendaList)
-            ?
-            (
-                PrendaList?.prendas.map(prenda => (
-                    <Prendatargeta key={prenda.idprenda} prenda={prenda} update={update} setUpdate={setupdate} descuentos={DescuentoList?.descuentos} talla={TallaList?.tallas} estilo={EstiloList?.estilos} material={MaterialList?.materiales}/>
-                ))
-            )
-            :
-            (<>Lo sentimos no contamos con vestidos con esta categoria</>)
+            PrendaList?.prendas.length == 0 ? (
+              <div className="alert alert-primary" role="alert" style={{width:'90%', margin:'0px auto', height:'400px'}}>
+              <h4>Lo sentimos, de momento no contamos con productos con estas características</h4>
+              </div>
+            ) : (
+              PrendaList?.prendas.map(prenda => (
+              <Prendatargeta key={prenda.idprenda} prenda={prenda} update={update} setUpdate={setupdate} descuentos={DescuentoList?.descuentos} talla={TallaList?.tallas} estilo={EstiloList?.estilos} material={MaterialList?.materiales}/>
+            )))
+            
           }
       </div>
       <div className="row g-0 align-items-center pb-4">

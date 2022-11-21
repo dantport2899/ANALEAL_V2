@@ -90,7 +90,7 @@ export const Prendatargeta = ({ prenda,descuentos,talla,estilo, material, update
             </div>
             <div className="flex-1 ms-3">
               <h5 className="font-size-16 mb-1">
-                <a href="#" className="text-dark">
+                <a className="text-dark">
                     {Prendas.nom_prenda}
                 </a>
               </h5>

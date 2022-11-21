@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { PrendaDeleteModal } from './prendaDeleteModal';
 import { EntradaReporteModal } from './EntradaReporteModal';
+import { VerImagenModal } from "./verImagenModal";
 
 interface Props {
   prenda: any;
@@ -24,6 +25,7 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
     let Prendas:Prenda = prenda;  
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenEntradas, setIsOpenEntradas] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -104,11 +106,11 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
         {
           (Prendas.img_archivo)
           ?
-          (<><img
+          (<a onClick={()=>setIsOpen(true)}><img
             src={require("../src/prendas/"+Prendas.img_nombre)}
             style={{height:'40px'}}
             className="avatar-sm rounded-circle me-2"
-          /></>)
+          /></a>)
           :
           (<><img
             src={require("../src/prendas/corteafuera.jpeg")}
@@ -140,6 +142,13 @@ export const PrendaRow = ({ prenda,descuentos,talla,estilo, update, setUpdate }:
           document={Prendas}
           update={update}
           setUpdate={setUpdate}
+        />
+      )}
+      {isOpen && (
+        <VerImagenModal
+          setIsOpen={setIsOpen}
+          img={Prendas.img_nombre}
+          nom_prenda={Prendas.nom_prenda}
         />
       )}
     </tr>

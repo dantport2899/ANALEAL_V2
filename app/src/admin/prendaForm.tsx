@@ -74,29 +74,43 @@ export const PrendaForm = () => {
     } else {
       action = "newprenda";
     }
-    
-    var reader = new FileReader();
-    let base64:string | ArrayBuffer | null = "";
-    reader.readAsDataURL(data.img_nombre[0]);
 
-    reader.onload = function () {
-      base64 = reader.result;
-      // console.log(base64);
-      data.img_data = base64;
-      data.img_nombre = data.img_nombre[0].name;
-      data.img_archivo = "../src/prendas/"+data.img_nombre;
+    if(data.img_nombre[0]){
+      var reader = new FileReader();
+      let base64:string | ArrayBuffer | null = "";
+      reader.readAsDataURL(data.img_nombre[0]);
   
+      reader.onload = function () {
+        base64 = reader.result;
+        // console.log(base64);
+        data.img_data = base64;
+        data.img_nombre = data.img_nombre[0].name;
+        data.img_archivo = "../src/prendas/"+data.img_nombre;
+    
+        const Jsonsend = {
+          action: action,
+          data: data,
+        };
+        savePrenda(Jsonsend);
+  
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+    }else{
+
+      delete data.img_nombre
+
       const Jsonsend = {
         action: action,
         data: data,
       };
-      // console.log(Jsonsend);
-      savePrenda(Jsonsend);
 
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
+      console.log(Jsonsend);
+      savePrenda(Jsonsend);
+    }
+    
+    
    
   };
 
@@ -145,9 +159,17 @@ export const PrendaForm = () => {
       <div style={{ paddingTop: "55px" }}>
         <body>
           {/* div titulo */}
-          <div className="badge page-header">
+          
+          {
+            (state)
+            ?
+            (<div className="badge page-header">
             <h1 style={{ textAlign: "center" }}>Modificar prenda</h1>
-          </div>
+          </div>)
+            :(<div className="badge page-header">
+            <h1 style={{ textAlign: "center" }}>Nueva Prenda</h1>
+          </div>)
+          }
 
           <div className="divFormModificar">
             <form  onSubmit={handleSubmit(onSubmit)}>
@@ -204,8 +226,7 @@ export const PrendaForm = () => {
                     className="form-control"
                     {...register("img_nombre")}
                     id="img"
-                    required={false}
-                    aria-required="true"
+                    required={(state)? false : true}
                   />
                 </div>
                 <div className="formbuilder-select form-group field-dpto">

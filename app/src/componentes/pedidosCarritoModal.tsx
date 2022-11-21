@@ -6,6 +6,9 @@ import { Descuento, Descuentos } from "../interfaces/Descuentos";
 import { Carrito } from '../interfaces/Carrito';
 import { useNavigate } from "react-router-dom";
 import { CarritoPedidosRow } from './carritoPedidosRow';
+import { Materiales } from '../interfaces/Materiales';
+import { Tallas } from "../interfaces/Tallas";
+import { Estilos } from "../interfaces/Estilos";
 
 interface Props {
   setIsOpen: (ver: boolean) => void;
@@ -19,6 +22,9 @@ export const PedidosCarritoModal = ({
   IsOpen
 }: Props) => {
   const [CarritoList, setCarritoList] = useState<Carrito>();
+  const [TallaList, setTallaList] = useState<Tallas>();
+  const [EstiloList, setEstiloList] = useState<Estilos>();
+  const [MaterialList, setMaterialList] = useState<Materiales>();
   const [Error, setError] = useState<string>();
   const [DescuentoList, setDescuentoList] = useState<Descuentos>();
   const [Total, setTotal] = useState<number>(0);
@@ -28,7 +34,9 @@ export const PedidosCarritoModal = ({
   useEffect(() => {
     getCarritoList();
     getDescuentoList();
-
+    getTallaList();
+    getEstiloList();
+    getMaterialList();
 }, [])
 
 useEffect(() => {
@@ -92,6 +100,72 @@ useEffect(() => {
       });
   };
 
+  const getTallaList = async() => {
+    let getDescuento = {
+        action: "gettallas",
+            data:{
+                idrol: 1,
+                orderby:"idtalla",
+                order:"ASC"
+            }
+    }
+
+
+    const res = await reqqResapi.post<Tallas>('',getDescuento).then(res => {
+        if(res.data.error){
+            setError(res.data.message);
+        }else{
+            setTallaList(res.data);
+        }
+
+    });   
+  }
+
+  const getEstiloList = async() => {
+    
+      let getDescuento = {
+          action: "getstilos",
+              data:{
+                  idrol: 1,
+                  orderby:"idestilo",
+                  order:"ASC"
+              }
+      }
+
+
+      const res = await reqqResapi.post<Estilos>('',getDescuento).then(res => {
+          if(res.data.error){
+              setError(res.data.message);
+          }else{
+              setEstiloList(res.data);
+          }
+
+      });   
+  }
+
+  const getMaterialList = async() => {
+    
+      let getDescuento = {
+          action: "getmateriales",
+              data:{
+                  idrol: 1,
+                  orderby:"idmaterial",
+                  order:"ASC"
+              }
+      }
+
+
+      const res = await reqqResapi.post<Materiales>('',getDescuento).then(res => {
+          if(res.data.error){
+              setError(res.data.message);
+          }else{
+              setMaterialList(res.data);
+          }
+
+      });   
+  }
+
+
 
   return (
     <div className="darkBG">
@@ -136,6 +210,9 @@ useEffect(() => {
                                     key={producto.idprenda}
                                     prenda={producto}
                                     descuentos={DescuentoList}
+                                    material={MaterialList}
+                                    estilo={EstiloList}
+                                    talla={TallaList}
                                     Total={Total}
                                     setTotal={setTotal}
                                   />

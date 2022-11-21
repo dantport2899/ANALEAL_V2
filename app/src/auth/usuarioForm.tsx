@@ -42,9 +42,24 @@ export const UsuarioForm = () => {
         });    
   }
 
+  const CONFIG = () => {
+    navigate('/config');
+    window.location.reload();
+}
+
   return (
     <div style={{paddingTop:'160px'}}>
-      <NavbarAdmin/>
+        {
+            (sessionStorage.getItem('user_types_id') == "1")
+            ?
+            (
+                <NavbarAdmin/>
+            )
+            :
+            (
+                <NavbarCliente/>
+            )
+        }
 
       <div className="contact">
             <div className="container-fluid">

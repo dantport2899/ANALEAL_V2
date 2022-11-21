@@ -34,6 +34,8 @@
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: 100vh;
+    
   }
 
   .verprenda-form{
@@ -41,8 +43,9 @@
   }
 
   .container-imgverprenda{
-    margin-top: 15%;
-    margin-left: 25%;
+    width: 50%;
+    margin: auto 0px;
+    text-align: center;
   }
 
   .textoCentrado{

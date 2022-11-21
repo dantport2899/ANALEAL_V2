@@ -37,7 +37,7 @@ export const NavbarCliente = () => {
                             </li>
                         
                             <li className="nav-item px-4">
-                                <a className={`nav-link ${location.pathname == '/user/galeria' ? 'active' : ''}`}  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Galeria</a>
+                                <a className={`nav-link ${location.pathname == '/user/galeria' ? 'active' : ''}`}  onClick={()=>navigate('/user/galeria')} style={{textTransform:"uppercase"}}>Galería</a>
                             </li>
                            
                         </ul>
@@ -59,14 +59,16 @@ export const NavbarCliente = () => {
                                 </li>
                             </ul>
                             <ul className="navbar-nav ml-auto mb-2 mb-md-0">
+                                        <li className="nav-item"><a className={`nav-link ${location.pathname == '/user/historial' ? 'active' : ''}`} aria-current="page" style={{textTransform:"uppercase"}} onClick={()=>navigate('/user/historial')}>pedidos</a></li>
+                            </ul>
+                            <ul className="navbar-nav ml-auto mb-2 mb-md-0">
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle active" aria-current="page" style={{textTransform:"uppercase"}} id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {sessionStorage.user}
                                 </a>
                                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" onClick={()=>navigate('/user/config')}>Ir a perfil</a></li>
+                                        <li><a className="dropdown-item" onClick={()=>navigate('/config')}>Ir a perfil</a></li>
                                         <li><a className="dropdown-item" onClick={()=>navigate('/user/historial')}>Revisar pedidos</a></li>
-                                        <li><a className="dropdown-divider"></a></li>
                                         <li><a className="dropdown-item" onClick={()=>cerrarsesion()}>Cerrar sesión</a></li>
                                     </ul>
                                 </li>

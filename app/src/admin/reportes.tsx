@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavbarAdmin } from "../componentes/navbarAdmin";
 import "./../styles/newtable.css";
 import {useDescuentos} from "../hooks/useDescuentos"
@@ -7,6 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { Paginacion } from '../componentes/paginacion';
 import { useReportes } from '../hooks/useReportes';
 import { ReporteRow } from "../componentes/ReporteRow";
+import { useState } from 'react';
+import { Tallas } from "../interfaces/Tallas";
+import { Estilos } from "../interfaces/Estilos";
+import { Materiales } from "../interfaces/Materiales";
+import { Descuentos } from "../interfaces/Descuentos";
+import { reqqResapi } from "../api/reqRes";
 
 
 export const Reportes = () => {
@@ -29,9 +35,11 @@ export const Reportes = () => {
   } = useReportes();
 
   const navigate = useNavigate();
+  const [TallaList, setTallaList] = useState<Tallas>();
+  const [EstiloList, setEstiloList] = useState<Estilos>();
+  const [MaterialList, setMaterialList] = useState<Materiales>();
+  const [DescuentoList, setDescuentoList] = useState<Descuentos>();
 
-  console.log(ReporteList);
-  
   const changueOrder = (col:string) => {
     setorderby(col)
 
@@ -41,6 +49,96 @@ export const Reportes = () => {
       setasc("ASC")
     }
   }
+
+  useEffect(() => {
+    getDescuentoList();
+    getTallaList();
+    getEstiloList();
+    getMaterialList();
+}, [])
+
+  const getDescuentoList = async () => {
+    let getDescuento = {
+      action: "getdescuentos",
+      data: {
+        idrol: 1,
+        orderby: "descuento",
+        order: "ASC",
+      },
+    };
+
+    const res = await reqqResapi
+      .post<Descuentos>("", getDescuento)
+      .then((res) => {
+        if (res.data.error) {
+          alert(res.data.message);
+        } else {
+          setDescuentoList(res.data);
+        }
+      });
+  };
+
+  const getTallaList = async() => {
+    let getDescuento = {
+        action: "gettallas",
+            data:{
+                idrol: 1,
+                orderby:"idtalla",
+                order:"ASC"
+            }
+    }
+    const res = await reqqResapi.post<Tallas>('',getDescuento).then(res => {
+        if(res.data.error){
+            setError(res.data.message);
+        }else{
+            setTallaList(res.data);
+        }
+
+    });   
+  }
+
+  const getEstiloList = async() => {
+    
+      let getDescuento = {
+          action: "getstilos",
+              data:{
+                  idrol: 1,
+                  orderby:"idestilo",
+                  order:"ASC"
+              }
+      }
+      const res = await reqqResapi.post<Estilos>('',getDescuento).then(res => {
+          if(res.data.error){
+              setError(res.data.message);
+          }else{
+              setEstiloList(res.data);
+          }
+
+      });   
+  }
+
+  const getMaterialList = async() => {
+    
+      let getDescuento = {
+          action: "getmateriales",
+              data:{
+                  idrol: 1,
+                  orderby:"idmaterial",
+                  order:"ASC"
+              }
+      }
+
+
+      const res = await reqqResapi.post<Materiales>('',getDescuento).then(res => {
+          if(res.data.error){
+              setError(res.data.message);
+          }else{
+              setMaterialList(res.data);
+          }
+
+      });   
+  }
+
 
   return (
     <div>
@@ -101,6 +199,7 @@ export const Reportes = () => {
                             </th>
                             <th scope="col" onClick={()=>changueOrder("idreporte")}>Id</th>
                             <th scope="col" onClick={()=>changueOrder("idprenda")}>Prenda ID</th>
+                            <th scope="col">Prenda</th>
                             <th scope="col" onClick={()=>changueOrder("accion")}>Accion</th>
                             <th scope="col" onClick={()=>changueOrder("cantidad")}>Cantidad</th>
                             <th scope="col" onClick={()=>changueOrder("fecha")}>Fecha</th>
@@ -109,8 +208,13 @@ export const Reportes = () => {
                         </thead>
                         <tbody>
                                 {
-                                    ReporteList?.descuentos.map(reporte => (
-                                        <ReporteRow key={reporte.idreporte} reporte={reporte} update={update} setUpdate={setupdate}/>
+                                    ReporteList?.reportes.map(reporte => (
+                                        <ReporteRow key={reporte.idreporte} reporte={reporte} update={update} setUpdate={setupdate} descuentos={DescuentoList}
+                                        material={MaterialList}
+                                        estilo={EstiloList}
+                                        talla={TallaList}
+                                        prenda={reporte.prenda}
+                                        />
                                     ))                     
                                 }
                         </tbody>
@@ -122,7 +226,7 @@ export const Reportes = () => {
               <div className="row g-0 align-items-center pb-4">
                 <div className="col-sm-6">
                   <div>
-                    <p className="mb-sm-0">Mostrando {ReporteList?.descuentos.length} de {TotalReportes} #descuentos</p>
+                    <p className="mb-sm-0">Mostrando {ReporteList?.reportes.length} de {TotalReportes} #descuentos</p>
                   </div>
                 </div>
                 <div className="col-sm-6">

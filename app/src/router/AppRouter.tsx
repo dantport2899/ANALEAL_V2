@@ -24,6 +24,7 @@ import { UserConfig } from "../user/userConfig";
 import { Home } from "../home";
 import { UsuarioForm } from '../auth/usuarioForm';
 import { Reportes } from '../admin/reportes';
+import { UserVerprendaDetalles } from '../user/userVerprendaDetalles';
 
 export const AppRouter = () => {
   return (
@@ -47,6 +48,7 @@ export const AppRouter = () => {
         <Route path="/user" element={<UserHome/>}/>
         <Route path="/user/galeria" element={<Usergaleria/>}/>
         <Route path="/user/prenda" element={<UserVerprenda/>}/>
+        <Route path="/user/prenda_detalles" element={<UserVerprendaDetalles/>}/>
         <Route path="/user/carrito" element={<UserCarrito/>}/>
         <Route path="/user/confirmar" element={<UserConfirmacioncompra/>}/>
         <Route path="/user/historial" element={<UserHistorial/>}/>

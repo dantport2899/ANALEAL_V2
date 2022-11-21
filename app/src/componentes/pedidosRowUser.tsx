@@ -20,6 +20,7 @@ export const PedidosRowUser = ({ pedido, update, setUpdate }: Props) => {
 
   // console.log(Descuento);
 
+  
   return (
     <tr>
       <td>
@@ -30,7 +31,7 @@ export const PedidosRowUser = ({ pedido, update, setUpdate }: Props) => {
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               title="Delete"
-              className="px-2 text-danger"
+              className="px-2 text-success"
             >
               <i className="bx bx-notepad font-size-18"></i>
             </a>

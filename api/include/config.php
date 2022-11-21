@@ -9,6 +9,12 @@ $conf_ip_db     = "localhost";
 $conf_usr_db    = "root";
 $conf_psw_db    = "";
 
+// web000host
+// $conf_db        = "id19888737_tienda_ropa";
+// $conf_ip_db     = "localhost";
+// $conf_usr_db    = "id19888737_dantport2899";
+// $conf_psw_db    = "AsU\{t|pZuQMpV0_";
+
 
 define('DATABASE_NAME', $conf_db);
 define('DATABASE_USER', $conf_usr_db);

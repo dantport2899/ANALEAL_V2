@@ -88,7 +88,22 @@ class Reportes
     
                 $sql = "SELECT * FROM `reportes` ORDER BY ".$datalimite->orderby." ".$datalimite->order." LIMIT ".$inicio.",".$limite." ";
                 $prendas = $conexion->consulta($sql);
-                $response['descuentos'] = $prendas;
+
+                foreach ($prendas as $key => $prenda) {
+                    $sql2 = "SELECT * FROM `prendas` WHERE idprenda=".$prenda['idprenda']."";
+                    $prendainfo = $conexion->consulta($sql2);
+                    $prendas[$key]['prenda'] = $prendainfo;
+                }
+                
+                foreach ($prendas as $key => $prenda) {
+                    if($prenda['idpedido']!=="1"){
+                        $sql2 = "SELECT * FROM `pedidos` WHERE idpedidos=".$prenda['idpedido']."";
+                        $pedidoinfo = $conexion->consulta($sql2);
+                        $prendas[$key]['pedido'] = $pedidoinfo;
+                    }
+                }
+
+                $response['reportes'] = $prendas;
             }
         }else{
             $sql = "SELECT * FROM `reportes`";
